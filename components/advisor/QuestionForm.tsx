@@ -61,6 +61,11 @@ export function QuestionForm({ draft, onChange, remember, onRemember, onSubmit }
         <legend className="serif text-lg text-paper">{COPY.qDay}</legend>
         <p className="mt-2 text-sm text-muted">{COPY.qDayHint}</p>
         <div className="mt-3 space-y-3">
+          {/* Neither input is disabled while "Weiß ich nicht" is on. They were,
+              and since that chip only ever switches on, the question became a
+              one-way door: no way back to a number short of deleting the whole
+              draft. Touching either input now simply means "I do know". The
+              control bar on the result screen has always worked this way. */}
           <label className="block text-sm">
             <span className="text-muted">
               {draft.dayUnknown ? "noch offen" : `${dayNum} km`}
@@ -71,7 +76,7 @@ export function QuestionForm({ draft, onChange, remember, onRemember, onSubmit }
               max={200}
               step={5}
               className="mt-2 w-full"
-              disabled={draft.dayUnknown}
+              aria-label={COPY.qDay}
               value={dayNum}
               onChange={(e) =>
                 onChange({
@@ -89,17 +94,19 @@ export function QuestionForm({ draft, onChange, remember, onRemember, onSubmit }
                 inputMode="decimal"
                 placeholder={COPY.qDayPlaceholder}
                 value={draft.dayUnknown ? "" : draft.dayKm}
-                disabled={draft.dayUnknown}
                 onChange={(e) =>
                   onChange({ ...draft, dayKm: e.target.value, dayUnknown: false })
                 }
               />
             </Field>
+            {/* A toggle, not a lone radio: role="radio" outside any radiogroup
+                is invalid, and a radio cannot be switched off again. */}
             <button
               type="button"
-              role="radio"
-              aria-checked={draft.dayUnknown}
-              onClick={() => onChange({ ...draft, dayUnknown: true, dayKm: "" })}
+              aria-pressed={draft.dayUnknown}
+              onClick={() =>
+                onChange({ ...draft, dayUnknown: !draft.dayUnknown, dayKm: "" })
+              }
               className={`min-h-11 rounded-full border px-3.5 text-sm ${
                 draft.dayUnknown
                   ? "border-gold bg-gold text-graphite"

@@ -73,6 +73,9 @@ export function loadDraft(): Draft | null {
       charge: data.charge ?? base.charge,
       price: data.price ?? base.price,
       priceMax: data.priceMax !== undefined ? data.priceMax : base.priceMax,
+      /* Missing until 22.09.2026: the schema parsed it, this list never copied
+         it back, so a saved lower bound came back as "offen" on every reload. */
+      priceMin: data.priceMin !== undefined ? data.priceMin : base.priceMin,
       speedKph: clampSpeed(Number(data.speedKph) || base.speedKph),
       startSoc: data.startSoc ?? base.startSoc,
       persons: data.persons ?? base.persons,
