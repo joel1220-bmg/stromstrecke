@@ -20,6 +20,10 @@ npx next dev -p 3001
 
 npm-Scripts sind Windows-tauglich (kein `VAR=1 cmd`).
 
+## Veröffentlichen
+
+`npm run build` erzeugt einen statischen Export in `out/`. Dessen **Inhalt** kommt ins Web-Verzeichnis bei lima-city, auch die versteckte Datei `.htaccess`. Sie setzt die Sicherheits-Header, leitet `www.` auf die Domain ohne `www.` um und regelt das Caching. Danach `/impressum/` und `/datenschutz/` live kontrollieren.
+
 ## Routen
 
 | Pfad | Inhalt |

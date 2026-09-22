@@ -97,6 +97,26 @@ Status: `offen` · `läuft` · `fertig` · `blockiert`
 | Vier Autos nebeneinander statt drei | **fertig** |
 | Spalten der Vergleichstabelle folgen den Karten, keine eigene Sortierung | **fertig** |
 
+## Durchsicht vom 22.09.
+
+Live lief noch der Stand vom 14.09. (`30aff61`), gebaut außerhalb des
+Repos. Abgeglichen: alle 61 Autos und alle Texte identisch mit `30aff61`,
+nichts Live-Exklusives außer der Export-Einstellung und der `.htaccess`.
+
+| Aufgabe | Status |
+|---|---|
+| Statischer Export und `.htaccess` ins Repo, Deploy in `CLAUDE.md` | **fertig** |
+| Zod ohne 50 Sprachpakete, `/berater` 281 auf 224 KB komprimiert | **fertig** |
+| Tageskilometer: Rückweg nach „Weiß ich nicht“, kein `role="radio"` mehr | **fertig** |
+| Untere Preisgrenze überlebt das Neuladen | **fertig** |
+| „Aussortieren“ statt „Passt nicht“, mit Rückweg und zwei leeren Zuständen | **fertig** |
+| „1 Auto“, kein verwaister Hinweis, kein doppelter Fußzeilensatz | **fertig** |
+| robots.txt, sitemap.xml, Apple-Icon, www-Umleitung, Cache ein Jahr | **fertig** |
+| 3D-Showroom samt Abhängigkeiten entfernt | **fertig** |
+| Updates, Vitest 5, `npm audit` ohne Befund | **fertig** |
+| `_lcp`-Cookie in der Datenschutzerklärung, Zweck bei lima-city erfragen | teilweise |
+| Interne `notes` der Autos (englisch, „UNVERIFIED“) gehen mit ins Browser-Bundle | offen |
+
 ## Was jetzt am meisten stört
 
 1. **Handy.** Nach dem Absenden sieht man kein einziges Auto ohne zu scrollen,

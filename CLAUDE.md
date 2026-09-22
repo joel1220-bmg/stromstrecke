@@ -48,6 +48,7 @@ components/ui/       shared primitives — chips, fields, range bars
 lib/engine/          the calculation. Pure. No I/O, no LLM, no Date.now()
 lib/copy.ts          German product language, locked
 data/                seed JSON: cars, climate, routes. Every file carries asOf
+public/.htaccess     lima-city server config: headers, www redirect, caching
 ```
 
 The 3D showroom (react-three-fiber, GLB models, their Python generator) was
@@ -65,6 +66,20 @@ npx next dev -p 3001         # then actually look at it
 
 Looking at the page is part of the loop, not an optional last step. Two of the
 three worst bugs so far were invisible in the code and obvious on screen.
+
+## Deploy
+
+stromstrecke.de is a static export on lima-city. `npx next build` writes it to
+`out/`; the **contents** of `out/` go into the web root, including the hidden
+`.htaccess`, which carries the security headers, the www redirect and the cache
+rules. There is no Node server in production, so `headers()` in
+`next.config.ts` only applies to `next dev`; `lib/htaccess.test.ts` keeps the
+two in step.
+
+Until 22.09.2026 the export settings were in no commit, and the live site was
+built from somewhere outside this repository: on 22.09. it still served the
+state of 14.09. while this branch had four days more. Build what is
+committed, and after a deploy check `/impressum/` and `/datenschutz/` live.
 
 ## Rules that are not style preferences
 

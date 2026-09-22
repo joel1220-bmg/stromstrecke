@@ -22,19 +22,23 @@ const URL_BASE = "https://stromstrecke.de";
  * The colon in the title became a middot at the same time. Every other page
  * here already reads "Impressum · Stromstrecke", and the house rule for this
  * site's copy is no colons.
+ *
+ * Two tags left on 22.09.2026. `openGraph.url: "/"` was inherited by every
+ * page, so a shared /berater/ link declared itself to be the home page; without
+ * it, scrapers use the address they fetched. And `robots: index, follow` is
+ * the default anyway, but spelled out here it stood next to the "noindex" that
+ * Next puts on the 404 page, two contradicting tags on one page.
  */
 export const metadata: Metadata = {
   metadataBase: new URL(URL_BASE),
   title: TITLE,
   description: COPY.underCta,
-  robots: { index: true, follow: true },
   openGraph: {
     type: "website",
     locale: "de_DE",
     siteName: "Stromstrecke",
     title: TITLE,
     description: COPY.underCta,
-    url: "/",
     images: [{ url: "/og.png", width: 1200, height: 630, alt: TITLE }],
   },
   twitter: {

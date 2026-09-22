@@ -1,0 +1,35 @@
+# stromstrecke.de on lima-city. Copied into out/ by `next build` and uploaded
+# with the rest of the export; it replaces whatever .htaccess is on the server.
+#
+# The headers below must match securityHeaders(false) in next.config.ts.
+# lib/htaccess.test.ts checks that, line by line.
+#
+# Every block is wrapped in <IfModule>: a directive for a module the server
+# does not load would otherwise answer every request with a 500.
+
+# The export's own 404 page, with a real 404 status.
+ErrorDocument 404 /404.html
+
+# One address for the whole site. www.stromstrecke.de answered with the same
+# pages and no redirect, so every page existed twice.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTP_HOST} ^www\.stromstrecke\.de$ [NC]
+  RewriteRule ^ https://stromstrecke.de%{REQUEST_URI} [R=301,L]
+</IfModule>
+
+<IfModule mod_headers.c>
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set X-Frame-Options "DENY"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+
+  # Everything under /_next/static/ has a content hash in its file name, so a
+  # changed file always arrives under a new name. These may be cached for a
+  # year; they were cached for seven days.
+  <If "%{REQUEST_URI} =~ m#^/_next/static/#">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+    Header unset Expires
+  </If>
+</IfModule>
