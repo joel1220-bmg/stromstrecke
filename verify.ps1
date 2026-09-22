@@ -40,6 +40,8 @@ function Invoke-Step {
     }
 }
 
+# Next generates LayoutProps and the route types; a fresh clone has none yet.
+Invoke-Step "Next-Typen" { npx next typegen }
 Invoke-Step "Typen" { npx tsc --noEmit }
 Invoke-Step "Tests" { npx vitest run }
 
