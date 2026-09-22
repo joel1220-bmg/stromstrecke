@@ -1,6 +1,6 @@
 # Stromstrecke
 
-[![CI](https://github.com/joel1220-bmg/fahrklar/actions/workflows/ci.yml/badge.svg)](https://github.com/joel1220-bmg/fahrklar/actions/workflows/ci.yml)
+[![CI](https://github.com/joel1220-bmg/stromstrecke/actions/workflows/ci.yml/badge.svg)](https://github.com/joel1220-bmg/stromstrecke/actions/workflows/ci.yml)
 
 **Wie weit komme ich mit einem E-Auto wirklich, und wie lange stehe ich unterwegs an der Säule?**
 Stromstrecke beantwortet das für Menschen, die noch nie ein E-Auto hatten, mit ehrlichen Spannen statt Prüfstandswerten.
@@ -70,7 +70,7 @@ npx next dev -p 3001     # http://localhost:3001
 Prüfen wie in der CI:
 
 ```bash
-npx tsc --noEmit && npx vitest run && npx eslint . && npx next build
+npx next typegen && npx tsc --noEmit && npx vitest run && npx eslint . && npx next build
 ```
 
 ## Veröffentlichen
@@ -81,4 +81,4 @@ npx tsc --noEmit && npx vitest run && npx eslint . && npx next build
 
 Das Projekt ist mit KI-Unterstützung entstanden, mit [Claude Code](https://claude.com/claude-code). Die Arbeit ist auf spezialisierte Agenten mit festen Dateibereichen aufgeteilt ([`.claude/agents/`](.claude/agents)), Regeln und bekannte Stolperfallen stehen in [`CLAUDE.md`](CLAUDE.md). Viele Commits sind deshalb als „Claude“ signiert.
 
-Das Repository heißt noch `fahrklar`, der frühere Name der Seite.
+Bis zum 13.09.2026 hieß das Projekt „Fahrklar“. Nur die Schlüssel im `localStorage` tragen den alten Namen noch, damit gemerkte Angaben erhalten bleiben.

@@ -1,4 +1,4 @@
-# Fahrklar — Backlog
+# Stromstrecke — Backlog
 
 Twenty pieces of work, each with one owner. The owner column is the agent in
 `.claude/agents/` whose file set covers it. **Two agents never write the same

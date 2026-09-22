@@ -1,4 +1,4 @@
-# Fahrklar Ladekurve-Lock v1.1 (DC-Physik)
+# Stromstrecke Ladekurve-Lock v1.1 (DC-Physik)
 
 Stand 12.09.2026 · DE · typische Neuwagen. Fachbot Ladekurve. **Kein Code.** Keine Werbe-kW als Alltagszeit. Keine Orts-Navigation.
 Übergabe an Ladezeit: Formeln + Katalog-Tabelle unten. Umsetzung erst nach Jo-OK.
@@ -118,7 +118,7 @@ ADAC-Größenordnung Zeit ohne Vorkondi: ~+40 % bis +70 % (Zoe/e-Up ~40 %, ID.3 
 
 ## 4. Was wir nicht wissen → Annahme, keine Zusage
 
-| Unbekannt | Annahme in Fahrklar | UI |
+| Unbekannt | Annahme in Stromstrecke | UI |
 | --- | --- | --- |
 | Konkrete Säule / Splitting | Säule trägt Auto-Peak (≥ peakKw) | Fuß: volle Säule / Doppelbelegung oft langsamer |
 | Ob Vorkondi greift | ja, wenn Monat kalt | „Vorkonditionierung angenommen“ |

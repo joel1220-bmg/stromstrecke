@@ -1,4 +1,4 @@
-/** Locked Fahrklar v1 intake copy. Do not paraphrase in the UI. */
+/** Locked Stromstrecke v1 intake copy. Do not paraphrase in the UI. */
 
 /** One source for the chip that every uncertain question must offer. */
 const UNKNOWN = "Weiß ich nicht";
@@ -27,13 +27,9 @@ const UNKNOWN = "Weiß ich nicht";
 
 export const COPY = {
   // --- Landing -----------------------------------------------------------
-  // eyebrow, landingLead and LANDING_TILES below are not wired into
-  // app/page.tsx — it hardcodes the same eyebrow ("Fahrklar"), the same
-  // heading text, and its own local `TILES` array instead of importing
-  // LANDING_TILES. The hardcoded TILES has drifted: its second tile still
-  // carries the pre-audit WLTP paraphrase and lost the „…“ quotes around
-  // "Weiß ich nicht". Found in the 12.09.2026 copy-guard audit; app/page.tsx
-  // is outside this file's ownership, so left for whoever owns it to rewire.
+  // app/page.tsx reads eyebrow, landingLead, longDistancePromise and
+  // LANDING_TILES from here. Until mid-September it hardcoded its own copies,
+  // which had drifted from these (copy-guard audit, 12.09.2026).
   eyebrow: "Stromstrecke",
   landingLead:
     "Ein neues E-Auto, das zu Ihrem Alltag passt. Mit ehrlicher Reichweite, nicht mit Prüfstandszahlen.",
@@ -45,9 +41,8 @@ export const COPY = {
    * the long trip, and that's the first thing we answer." CLAUDE.md calls
    * this out by name as the product's main claim and the reader's main
    * worry; a product that never says so out loud is easy to mistake for a
-   * spec-sheet comparison tool. Not wired into app/page.tsx yet — that file
-   * is design-system's (see CLAUDE.md's division of labour); meant to sit
-   * directly under landingLead, before the CTA.
+   * spec-sheet comparison tool. Sits directly under landingLead on the
+   * landing page, before the CTA.
    */
   longDistancePromise:
     "Die größte Sorge beim Umstieg ist meist die Langstrecke. Daher beantworten wir genau das für Ihre Auswahl an Autos. Sie sehen, wie weit Sie je nach Jahreszeit wirklich kommen und wie viel Pause Sie unterwegs mehr einplanen müssen.",

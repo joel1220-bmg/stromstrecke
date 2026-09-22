@@ -1,4 +1,4 @@
-# Fahrklar verification gate.
+# Stromstrecke verification gate.
 #
 #   pwsh ./verify.ps1          types + tests + lint + production build
 #   pwsh ./verify.ps1 -Quick   types + tests only (a few seconds)

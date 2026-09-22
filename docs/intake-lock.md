@@ -1,4 +1,4 @@
-# Fahrklar Intake-Lock v1 (Sprache)
+# Stromstrecke Intake-Lock v1 (Sprache)
 
 Struktur von energiefluss, 12.09.2026. Nicht umbauen. Nur Alltagssprache.
 

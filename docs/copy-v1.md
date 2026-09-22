@@ -1,4 +1,4 @@
-# Fahrklar Copy v1 — lockbar
+# Stromstrecke Copy v1 — lockbar
 
 Stand: 12.09.2026. Sie-Form. Kein Verkauf, kein Leasing. Zahlen kommen nie aus einem LLM.
 
@@ -27,7 +27,7 @@ Ton wie Haus-Coach: kurz, konkret, Unsicherheit sichtbar. Jargon nur mit Klappe 
 
 ## Landing `/`
 
-**Eyebrow:** Fahrklar
+**Eyebrow:** Stromstrecke
 
 **landingLead:** Ein neues E-Auto, das zu Ihrem Alltag passt — mit ehrlicher Reichweite, nicht mit Prüfstandszahlen.
 

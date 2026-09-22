@@ -1,13 +1,14 @@
 @AGENTS.md
 
-# Fahrklar — working agreement
+# Stromstrecke — working agreement
 
-> **The site is called Stromstrecke.** Renamed 13.09.2026 because "Fahrklar"
-> was already taken; it is to be hosted at stromstrecke.de. Only the visible
-> name changed. The repository, the npm package and the localStorage key
-> `fahrklar-draft-v1` still say fahrklar on purpose: renaming the storage key
-> would throw away every saved draft, and the other two are invisible to
-> readers. Do not "tidy" that up without a reason.
+> **Formerly "Fahrklar".** The site was renamed on 13.09.2026 because that name
+> was already taken; it lives at stromstrecke.de. The GitHub repository
+> (joel1220-bmg/stromstrecke) and the npm package followed on 22.09.2026.
+> Two things still say fahrklar on purpose: the localStorage keys
+> `fahrklar-draft-v1` and `fahrklar-remember-v1`, because renaming them would
+> throw away every draft a reader asked us to keep, and the local folder
+> `C:\Users\joeli\fahrklar` on the development machine. Do not "tidy" the keys.
 
 Orientation for buying a **new electric car** in Germany. Honest Autobahn range
 as a span — month, speed, temperature — against WLTP's laboratory number.

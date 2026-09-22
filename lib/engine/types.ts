@@ -1,4 +1,4 @@
-/** Fahrklar domain types — Neuwagen-Berater. Chip IDs match lib/copy.ts. */
+/** Stromstrecke domain types — Neuwagen-Berater. Chip IDs match lib/copy.ts. */
 
 export type BodyStyle = "hatch" | "compact" | "kombi" | "sedan" | "crossover";
 
