@@ -1,44 +1,84 @@
 # Stromstrecke
 
-Orientierung für **neue E-Autos** in Deutschland, online unter [stromstrecke.de](https://stromstrecke.de). Ehrliche Autobahn-Reichweite als Spanne (Monat, Tempo, Temperatur) — kein Verkauf, kein Leasing-Vergleich.
+[![CI](https://github.com/joel1220-bmg/fahrklar/actions/workflows/ci.yml/badge.svg)](https://github.com/joel1220-bmg/fahrklar/actions/workflows/ci.yml)
 
-Das Repository heißt noch `fahrklar`, der frühere Name. Warum das so bleibt, steht in `CLAUDE.md`.
+**Wie weit komme ich mit einem E-Auto wirklich, und wie lange stehe ich unterwegs an der Säule?**
+Stromstrecke beantwortet das für Menschen, die noch nie ein E-Auto hatten, mit ehrlichen Spannen statt Prüfstandswerten.
 
-Alle Zahlen entstehen im Browser (`lib/engine`). Kein Konto, keine Datenbank, kein LLM.
+**Live:** [stromstrecke.de](https://stromstrecke.de)
 
-## Starten
+![Ergebnis mit Autobahn-Check für 600 km im Januar](docs/screenshots/ergebnis-desktop.png)
 
-```bash
-npm install
-npm test
-npx tsc --noEmit
-npm run build
-npx next dev -p 3001
-```
+## Worum es geht
 
-Öffnen: [http://localhost:3001](http://localhost:3001)
+Die größte Sorge beim Umstieg aufs E-Auto ist die Langstrecke, und genau dort führt die WLTP-Reichweite aus dem Prospekt am weitesten in die Irre. Stromstrecke fragt ein paar Dinge zum Alltag ab (Tagesstrecke, Karosserie, Lademöglichkeit, Budget) und zeigt dann für passende Neuwagen:
 
-npm-Scripts sind Windows-tauglich (kein `VAR=1 cmd`).
+- **Autobahn- und Stadtreichweite als Spanne**, abhängig von Monat, Tempo und Temperatur
+- **einen Autobahn-Check** für eine frei wählbare Strecke: Ladestopps auf der Karte, zusätzliche Ladezeit und Gesamtfahrzeit, nebeneinander für bis zu vier Autos
+- **jede Annahme sichtbar markiert**, dort, wo man sie ändern kann. „Weiß ich nicht“ ist bei jeder Frage erlaubt.
 
-## Veröffentlichen
+Kein Verkauf, kein Leasing-Vergleich, kein Konto. Alles wird im Browser gerechnet, nichts verlässt ihn.
 
-`npm run build` erzeugt einen statischen Export in `out/`. Dessen **Inhalt** kommt ins Web-Verzeichnis bei lima-city, auch die versteckte Datei `.htaccess`. Sie setzt die Sicherheits-Header, leitet `www.` auf die Domain ohne `www.` um und regelt das Caching. Danach `/impressum/` und `/datenschutz/` live kontrollieren.
+<p align="center">
+  <img src="docs/screenshots/ergebnis-handy.png" alt="Ergebnis auf dem Smartphone" width="300">
+</p>
 
-## Routen
+## Wie gerechnet wird
 
-| Pfad | Inhalt |
-| --- | --- |
-| `/` | Startseite mit gezeichneter Ladeszene und drei Kacheln |
-| `/berater` | Fragen, dann Ergebnis mit Kontrollleiste, Karten und Autobahn-Check |
-| `/datenschutz` | Datenschutzerklärung |
-| `/impressum` | Impressum |
+Die Rechnung liegt in [`lib/engine`](lib/engine): reine Funktionen, ohne I/O und ohne Zufall, gleiche Eingabe gibt immer das gleiche Ergebnis.
 
-## Daten
+- **Autobahnverbrauch:** Katalogwert je Auto, angepasst an das Tempo (Luftwiderstand), an die Außentemperatur (Heizung, mit oder ohne Wärmepumpe) und an die Luftdichte bei Kälte.
+- **Stadtreichweite:** ausgehend vom WLTP-Wert, weil dessen Zyklus einen Stadtanteil enthält, plus Heizlast, die in der Stadt pro Kilometer stärker ins Gewicht fällt.
+- **Laden:** mit der mittleren Leistung zwischen 10 und 80 Prozent statt der Spitzenleistung aus dem Datenblatt, mit Temperaturfaktor. Geladen wird nur, was die Reststrecke braucht.
+- **Spannen statt Punktwerte:** Jede Zahl hat einen vorsichtigen und einen guten Fall. Lässt sich eine Grenze nicht begründen, wird die Spanne breiter, nicht schmaler.
 
-- `data/cars.de.json`: 61 E-Neuwagen in fünf Karosserieformen, Einträge ohne Quellenprüfung sind in `notes` als `UNVERIFIED` markiert
-- `data/climate-months.de.json`: typische Außentemperatur in Deutschland je Monat
-- `data/routes.de.json`: die Autobahn-Strecke, die der Autobahn-Check auf der Karte zeichnet
+Die Fahrzeugdaten sind Orientierungswerte für 61 aktuelle Modelle. Einträge, die noch nicht gegen eine Herstellerquelle geprüft sind, sind in [`data/cars.de.json`](data/cars.de.json) als `UNVERIFIED` markiert.
 
 ## Technik
 
-Next.js App Router, TypeScript, Tailwind 4, Zod, Vitest. CSP, System-Fonts, Sie-Form, localStorage nur mit Opt-in. Copy-Lock: `lib/copy.ts` und `lib/engine/labels.ts`, gebunden an `intake-lock.md` und `ladekurve-lock.md`.
+| | |
+|---|---|
+| Framework | Next.js 16 (App Router) als statischer Export, React 19, TypeScript |
+| Styling | Tailwind CSS 4, Systemschriften, Karte und Illustration als Inline-SVG |
+| Validierung | Zod für gespeicherte Entwürfe |
+| Tests | Vitest, über 160 Tests für Rechenmodell, Grenzfälle, Speicherung und Konfiguration |
+| CI | GitHub Actions: Typprüfung, Tests, Lint und Build bei jedem Push |
+| Hosting | lima-city, Apache mit `.htaccess` für Sicherheits-Header und Caching |
+
+**Datenschutz und Sicherheit:** keine Tracker, keine externen Ressourcen, strenge Content-Security-Policy (`connect-src 'self'`). Der Entwurf wird nur mit ausdrücklichem Haken im `localStorage` gespeichert.
+
+## Projektstruktur
+
+```
+app/                 Seiten: Start, Berater, Impressum, Datenschutz
+components/advisor/  Fragebogen, Kontrollleiste, Ergebnis
+components/showroom/ Deutschlandkarte, Illustration, Karosserie-Icons
+components/ui/       wiederverwendbare Bausteine
+lib/engine/          das Rechenmodell, rein und getestet
+lib/copy.ts          alle Texte der Oberfläche an einer Stelle
+data/                Fahrzeuge, Monatstemperaturen, Autobahnroute
+docs/                Text- und Lade-Vorgaben, Backlog, Screenshots
+```
+
+## Lokal starten
+
+```bash
+npm install
+npx next dev -p 3001     # http://localhost:3001
+```
+
+Prüfen wie in der CI:
+
+```bash
+npx tsc --noEmit && npx vitest run && npx eslint . && npx next build
+```
+
+## Veröffentlichen
+
+`npx next build` schreibt einen statischen Export nach `out/`. Dessen **Inhalt** kommt ins Web-Verzeichnis bei lima-city, auch die versteckte Datei `.htaccess`: Sie setzt die Sicherheits-Header, leitet `www.` auf die Domain ohne `www.` um und regelt das Caching. Danach `/impressum/` und `/datenschutz/` live kontrollieren.
+
+## Arbeitsweise
+
+Das Projekt ist mit KI-Unterstützung entstanden, mit [Claude Code](https://claude.com/claude-code). Die Arbeit ist auf spezialisierte Agenten mit festen Dateibereichen aufgeteilt ([`.claude/agents/`](.claude/agents)), Regeln und bekannte Stolperfallen stehen in [`CLAUDE.md`](CLAUDE.md). Viele Commits sind deshalb als „Claude“ signiert.
+
+Das Repository heißt noch `fahrklar`, der frühere Name der Seite.

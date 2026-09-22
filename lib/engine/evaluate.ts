@@ -277,7 +277,6 @@ export function evaluateCars(draft: Draft): {
 } {
   const resolved = resolveDraft(draft);
   const assumptions = buildAssumptions(resolved);
-  const cap = budgetCap(resolved.priceMax);
 
   const bodyFilter: BodyStyle[] | null =
     resolved.bodies.length > 0 ? resolved.bodies : null;

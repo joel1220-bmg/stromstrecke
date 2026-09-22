@@ -78,7 +78,7 @@ two in step.
 
 Until 22.09.2026 the export settings were in no commit, and the live site was
 built from somewhere outside this repository: on 22.09. it still served the
-state of 14.09. while this branch had four days more. Build what is
+state of 14.09. while the repository had four days more. Build what is
 committed, and after a deploy check `/impressum/` and `/datenschutz/` live.
 
 ## Rules that are not style preferences
@@ -93,13 +93,13 @@ committed, and after a deploy check `/impressum/` and `/datenschutz/` live.
 3. **The engine is pure and reproducible.** No I/O, no `eval`, no LLM, no
    `Date.now()` inside the calculation. Same inputs, same output, always.
 
-4. **Copy lives in `lib/copy.ts` and is locked.** `intake-lock.md` fixes which
+4. **Copy lives in `lib/copy.ts` and is locked.** `docs/intake-lock.md` fixes which
    question sits in which slot and which words the UI may use;
-   `ladekurve-lock.md` fixes the charging claims. Changing a lock is a
+   `docs/ladekurve-lock.md` fixes the charging claims. Changing a lock is a
    deliberate act with a stated reason. Drifting away from one quietly is not.
 
 5. **Nothing is fetched at runtime.** CSP is `connect-src 'self'`. No CDN, no
-   Google Fonts, no HDRI from a third party. System fonts, in-scene lighting.
+   Google Fonts, no map tiles from a third party. System fonts, inline SVG.
 
 6. **`localStorage` only with opt-in**, and nothing leaves the browser. No
    account, no database, no tracker.

@@ -7,13 +7,13 @@ tools: Read, Write, Edit, Grep, Glob, Bash
 You own, and only you may write:
 
 - `lib/copy.ts`, `lib/engine/labels.ts`
-- `copy-v1.md`, `intake-lock.md`, `ladekurve-lock.md`, `README.md`
+- `docs/copy-v1.md`, `docs/intake-lock.md`, `docs/ladekurve-lock.md`, `README.md`
 
 Everything else is read-only. Report wording problems you find in components;
 do not fix them by editing the component.
 
-The locks are binding. `intake-lock.md` fixes which question sits in which slot
-and which words the UI may use; `ladekurve-lock.md` fixes the charging claims.
+The locks are binding. `docs/intake-lock.md` fixes which question sits in which slot
+and which words the UI may use; `docs/ladekurve-lock.md` fixes the charging claims.
 If a lock is wrong, change the lock deliberately and say why — never drift away
 from it quietly.
 

@@ -22,7 +22,7 @@ Rules that are not preferences:
    marked as assumed, in the place where it can be corrected.
 2. Ranges are the product. Never render a span as a single number.
 3. Strings come from `lib/copy.ts`. Do not write German copy inline and do not
-   paraphrase a locked string — see `intake-lock.md` and `copy-v1.md`.
+   paraphrase a locked string — see `docs/intake-lock.md` and `docs/copy-v1.md`.
 4. Keyboard and screen reader first: real buttons, `aria-expanded` on anything
    that opens, Escape closes, focus stays visible.
 
