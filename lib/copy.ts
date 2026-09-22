@@ -116,7 +116,12 @@ export const COPY = {
     "Ihre Autos nebeneinander, in der Reihenfolge der Karten oben. Orientierung, kein Navi.",
   compareStops: "Ladestopps",
   compareTotal: "Gesamt",
-  spanNote: "Die Spanne darunter reicht von vorsichtig gerechnet bis zu guten Bedingungen.",
+  /* Umgeschrieben 22.09.2026. Stand unter der Tabelle und sagte "darunter",
+     obwohl die Spannen darüber in der Tabelle stehen; "von vorsichtig
+     gerechnet" war schief, und die Reihenfolge lief andersherum als die Zahlen
+     (links steht der gute Fall, die kleinere Zahl). */
+  spanNote:
+    "Die kleine Spanne unter jedem Wert reicht von guten Bedingungen bis zu einer vorsichtigen Rechnung.",
   /*
    * Changed 13.09.2026: the Autobahn check no longer waits for a selection, so
    * the old wording ("Wählen Sie ein Auto, dann erscheint der Autobahn-Check
@@ -154,7 +159,15 @@ export const COPY = {
   qStart: "Wie voll ist das Auto am Start?",
   qStartHint: "Voll ist der übliche Start. Mit weniger Ladung kommt der erste Stopp früher.",
   tableWhen: "Gilt für diesen Monat und diesen Start, nicht für jedes Wetter.",
-  chargeWindow: "Unterwegs von etwa 10 auf 80 Prozent, nicht die Werbe-Ladegeschwindigkeit.",
+  /* Umgeschrieben 22.09.2026. Vorher ein Satz ohne Verb ("Unterwegs von etwa
+     10 auf 80 Prozent, nicht die Werbe-Ladegeschwindigkeit"), geschrieben als
+     Unterzeile einer 10-auf-80-Spalte, die es nicht mehr gibt. Und seit dem
+     13.09. lädt die Engine nicht mehr pauschal bis 80 Prozent, sondern nur, was
+     die Reststrecke braucht (range.ts, "Charge for the road ahead"). Die
+     Werbe-Zahl steht jetzt in peakHint. Zwischen Zahl und "Prozent" steht wie
+     vorher ein geschütztes Leerzeichen. */
+  chargeWindow:
+    "Wir rechnen damit, dass Sie mit etwa 10 Prozent an der Säule ankommen und höchstens bis 80 Prozent laden, beim letzten Stopp nur so viel, wie Sie bis zum Ziel brauchen.",
   precondAssumed: "Wir rechnen damit, dass das Auto an der Säule schon warm ist. Sonst dauert der Stopp im Winter oft länger.",
 
   qMonth: "Für welchen Monat rechnen wir Reichweite und Ladestopps?",
@@ -270,12 +283,18 @@ export const COPY = {
   methodSummary: "Wie wir rechnen",
   charge1080Label: "Laden von 10 auf 80 Prozent",
   peakLabel: "Spitzenleistung",
+  /* Umgeschrieben 22.09.2026. Begann mit "Die Spitzenleistung steht nur zum
+     Vergleich da", aber seit dem 13.09. steht sie nirgends mehr auf der Seite.
+     Dazu ein Doppelpunkt, den die Hausregel für UI-Texte ausschließt. Die
+     Aussage selbst ist die aus ladekurve-lock.md und bleibt. */
   peakHint:
-    "Die Spitzenleistung steht nur zum Vergleich da. Sie sagt wenig darüber, wie lange Sie wirklich an der Säule stehen: manche Autos halten eine niedrigere Leistung lange durch und sind schneller fertig als Autos mit hoher Spitze.",
+    "Die Ladezeiten rechnen wir nicht mit der Spitzenleistung aus dem Datenblatt. Sie sagt wenig darüber, wie lange Sie wirklich an der Säule stehen. Manche Autos halten eine niedrigere Leistung lange durch und sind schneller fertig als Autos mit hoher Spitze.",
   cityRangeLabel: "In der Stadt",
   highwayRangeLabel: "Autobahn-Reichweite",
+  /* Nachgebessert 22.09.2026: "Langsam fahren kostet wenig Luft" meinte den
+     Luftwiderstand, und "der Prüfstand Autobahn mitmisst" fehlte ein Wort. */
   cityRangeHint:
-    "In der Stadt reicht dieselbe Batterie weiter als auf der Autobahn, oft auch weiter als der Prüfstandswert. Das liegt nicht an schöngerechneten Zahlen, sondern daran, dass der Prüfstand Autobahn mitmisst, und genau dort verbraucht ein E-Auto am meisten. Langsam fahren kostet wenig Luft, und beim Bremsen fließt Strom zurück.",
+    "In der Stadt reicht dieselbe Batterie weiter als auf der Autobahn, oft sogar weiter als der Prüfstandswert. Das liegt nicht an schöngerechneten Zahlen. Der Prüfstand misst auch ein Stück Autobahn mit, und dort verbraucht ein E-Auto am meisten. In der Stadt ist der Luftwiderstand gering, und beim Bremsen fließt Strom zurück in die Batterie.",
   /*
    * "nutzbar" is not pedantry. Manufacturers advertise the gross pack while
    * only part of it is available to drive on, and four cars in this catalogue
@@ -290,8 +309,10 @@ export const COPY = {
    */
   batteryHint: "nutzbare Batterie",
   batteryLabel: "Nutzbare Batterie",
+  /* 22.09.2026: nennt jetzt, wo das Wort steht. Unter der Vergleichstabelle,
+     in der keine Batterie vorkommt, kam "Nutzbar heißt" ohne Bezug. */
   batteryTableHint:
-    "Nutzbar heißt der Teil der Batterie, mit dem Sie wirklich fahren. Hersteller nennen oft die größere Bruttozahl.",
+    "Mit „nutzbarer Batterie“ auf den Karten ist der Teil gemeint, mit dem Sie wirklich fahren. Hersteller nennen oft die größere Bruttozahl.",
 
   // --- Leerzustände -------------------------------------------------------
   // Simplified 13.09.2026 (copy-guard audit): "in der engeren Auswahl" is

@@ -636,8 +636,9 @@ export function ResultView({
                     <p>{COPY.spanNote}</p>
                     <p>{COPY.batteryTableHint}</p>
                     <p>{COPY.cityRangeHint}</p>
-                    <p>{COPY.peakHint}</p>
+                    {/* How we charge, then why not by the peak figure. */}
                     <p>{COPY.chargeWindow}</p>
+                    <p>{COPY.peakHint}</p>
                     {resolved.outdoorC < 10 ? <p>{COPY.precondAssumed}</p> : null}
                   </Disclosure>
                 </div>
