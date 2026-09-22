@@ -1,4 +1,10 @@
-import { z } from "zod";
+/*
+ * A namespace import, not `import { z } from "zod"`. The named `z` is itself a
+ * namespace re-export, and the bundler could not see through it: every one of
+ * zod's ~50 error-message locales went to the browser with it, 285 KB of the
+ * largest chunk, to validate one saved draft. Measured 22.09.2026.
+ */
+import * as z from "zod";
 
 const speedSchema = z.union([
   z.literal(100),
