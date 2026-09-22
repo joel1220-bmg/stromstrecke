@@ -182,7 +182,10 @@ export function ResultView({
                 type="button"
                 onClick={() => onSelect(r.car.id)}
                 aria-pressed={active}
-                className={`flex-1 w-full rounded-2xl border p-3 text-left transition-colors ${
+                /* flex-col: a <button> centres its content vertically, so a
+                   card with a shorter name floated lower than its neighbours
+                   in the same row. */
+                className={`flex flex-1 w-full flex-col rounded-2xl border p-3 text-left transition-colors ${
                   active
                     ? "border-gold bg-graphite-card"
                     : "border-graphite-line bg-graphite-soft hover:border-gold-dim"
@@ -193,16 +196,22 @@ export function ResultView({
                     <p className="serif text-lg text-paper">
                       {formatCarName(r.car)}
                     </p>
+                    {/* The figure never breaks: four abreast, "393–491 km"
+                        used to wrap after the dash. */}
                     <p className="mt-1 text-sm text-gold">
                       {COPY.highwayRangeLabel}{" "}
-                      {formatRangeKm(r.range.lowKm, r.range.highKm)}
+                      <span className="whitespace-nowrap">
+                        {formatRangeKm(r.range.lowKm, r.range.highKm)}
+                      </span>
                     </p>
                     {/* The same battery goes further in town. Showing only the
                         motorway span answers the long-distance worry and hides
                         the drive this reader actually does most days. */}
                     <p className="mt-0.5 text-sm text-muted">
                       {COPY.cityRangeLabel}{" "}
-                      {formatRangeKm(r.cityRange.lowKm, r.cityRange.highKm)}
+                      <span className="whitespace-nowrap">
+                        {formatRangeKm(r.cityRange.lowKm, r.cityRange.highKm)}
+                      </span>
                     </p>
                   </div>
                   {/* The silhouette was here until 13.09.2026. It said
