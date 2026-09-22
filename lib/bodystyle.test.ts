@@ -5,10 +5,13 @@
  * and to the catalogue while the generator still produced three models, and the
  * build died. "kombi" was added on 13.09.2026, so this file walks the whole
  * chain rather than trusting that it was remembered.
+ *
+ * The generated 3D dimensions were part of that chain until 22.09.2026, when
+ * the unused 3D showroom was removed together with its models. The icons in
+ * `components/showroom/BodyIcon.tsx` are drawn by hand and need no table.
  */
 
 import { describe, expect, it } from "vitest";
-import dims from "@/public/models/dims.json";
 import { BODY_CHIP } from "./copy";
 import { getCars } from "./engine/evaluate";
 import { emptyDraft, type BodyStyle } from "./engine/types";
@@ -25,15 +28,6 @@ describe("every body style is known all the way down", () => {
     expect(Object.keys(BODY_CHIP).sort()).toEqual([...STYLES].sort());
   });
 
-  it("has generated dimensions", () => {
-    for (const b of STYLES) {
-      const d = (dims as Record<string, { L: number; W: number; H: number }>)[b];
-      expect(d, `dims.json is missing ${b}`).toBeDefined();
-      expect(d!.L).toBeGreaterThan(3);
-      expect(d!.H).toBeGreaterThan(1);
-    }
-  });
-
   it("keeps the catalogue inside the union", () => {
     for (const car of getCars()) {
       expect(STYLES).toContain(car.body);
@@ -46,12 +40,6 @@ describe("Kombi", () => {
     const kombis = getCars().filter((c) => c.body === "kombi");
     // A filter that returns one car is a dead end, not a choice.
     expect(kombis.length).toBeGreaterThanOrEqual(3);
-  });
-
-  it("is longer and lower than the hatch it is not", () => {
-    const d = dims as Record<string, { L: number; W: number; H: number }>;
-    expect(d.kombi!.L).toBeGreaterThan(d.hatch!.L);
-    expect(d.kombi!.H).toBeLessThan(d.hatch!.H);
   });
 
   it("filters the result list down to estates when chosen", () => {

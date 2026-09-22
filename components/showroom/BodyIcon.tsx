@@ -7,10 +7,10 @@ import type { BodyStyle } from "@/lib/engine/types";
  * of names that mean nothing to them yet. A shape they can recognise in a
  * glance, small or estate or tall, does more than another line of text.
  *
- * Proportions come from BODY_DIMS in scripts/generate-car-glb.py, the same
- * table the 3D models are built from, scaled into one shared viewBox. A
- * crossover has to look taller than a hatch and a sedan longer, and the icons
- * must not disagree with the 3D about what a sedan is.
+ * Proportions come from the BODY_DIMS table of the former 3D model generator
+ * (removed with the unused showroom on 22.09.2026), scaled into one shared
+ * viewBox. The table below is now the only copy. A crossover has to look
+ * taller than a hatch and a sedan longer.
  *
  *   body        L     W     H      roof    deck
  *   hatch     4.26  1.81  1.56     0.66    hatch

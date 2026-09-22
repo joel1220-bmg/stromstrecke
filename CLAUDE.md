@@ -43,19 +43,23 @@ Two consequences that outrank any design preference:
 ```
 app/                 routes: / (landing), /berater, /datenschutz, /impressum
 components/advisor/  the journey: questions, control bar, result
-components/showroom/ the car canvas, materials, the route map
+components/showroom/ the route map, the landing illustration, body icons
 components/ui/       shared primitives — chips, fields, range bars
 lib/engine/          the calculation. Pure. No I/O, no LLM, no Date.now()
 lib/copy.ts          German product language, locked
 data/                seed JSON: cars, climate, routes. Every file carries asOf
-scripts/             the GLB generator (trimesh; no Blender on this machine)
 ```
+
+The 3D showroom (react-three-fiber, GLB models, their Python generator) was
+removed on 22.09.2026. Nothing had rendered it since the landing page switched
+to a drawn illustration on 13.09. It is in git history if it is ever wanted
+back, and so are the traps it caused.
 
 ## The loop
 
 ```bash
-pwsh ./verify.ps1 -Quick     # types + 95 tests, ~15 s, run constantly
-pwsh ./verify.ps1            # adds lint + build - stop `next dev` first, see trap 6
+pwsh ./verify.ps1 -Quick     # types + tests, ~40 s, run constantly
+pwsh ./verify.ps1            # adds lint + build - stop `next dev` first, see trap 3
 npx next dev -p 3001         # then actually look at it
 ```
 
@@ -96,12 +100,12 @@ That boundary is the whole mechanism; parallel work without it eats itself.
 | `advisor-ux` | `components/advisor/**`, `app/berater/` |
 | `engine` | `lib/engine/**`, `lib/advisor/**`, `data/**` |
 | `copy-guard` | `lib/copy.ts`, `labels.ts`, the lock documents |
-| `showroom` | `components/showroom/**`, `scripts/**`, `public/models/**` |
+| `showroom` | `components/showroom/**` |
 | `quality` | read-only auditor; writes only `docs/` |
 
 Open work is in `docs/backlog.md`.
 
-## Six traps this project already fell into
+## Traps this project already fell into
 
 **1. Two agents, one working tree, nothing committed.** On 12.09. a second
 process restored the tree from an archive and an hour of finished work vanished
@@ -110,43 +114,26 @@ work had been sitting uncommitted for hours. **Commit before handing the tree
 to anyone else**, and never run two writers over one file set.
 
 **2. A union grew a variant and the build died.** `BodyStyle` gained `compact`
-in `types.ts` and in `cars.de.json`, but `generate-car-glb.py` still produced
-three models and `dims.json` had three entries. A new variant means every
-consumer changes in the same commit. `compact` has its own `BODY_DIMS` entry
-and its own model now — but note the generator needs `.venv-glb` with trimesh,
-shapely and mapbox-earcut, which is gitignored and has to be recreated per
-machine. trimesh 5 no longer bundles a triangulation engine.
+in `types.ts` and in `cars.de.json`, but the 3D model generator still produced
+three models. A new variant means every consumer changes in the same commit:
+the zod enum in `lib/schema.ts`, the list in `lib/storage.ts`, `BODY_CHIP`, the
+icon. None of them is checked against the union by the compiler, which is why
+`lib/bodystyle.test.ts` and `lib/speed.test.ts` walk the chain instead.
 
-**3. `ContactShadows` draws its own rectangle.** It has no radial falloff, so
-the shadow plane's corners show as a grey diamond under the car — on the dark
-ground *and* on the light one, measured down to opacity 0.18 and blur 3.5. It
-is gone on purpose; the ground cue is a floor-bounce Lightformer. Do not put it
-back without looking at the result.
+Three more traps were about the 3D showroom (`ContactShadows` drawing a
+diamond, half-metal paint reading as plastic, `<Bounds clip>` leaving an empty
+canvas). They left with it on 22.09.2026; if 3D ever comes back, read them in
+this file's history first.
 
-**4. Half-metal paint looks like plastic.** Car paint is a dielectric with
-lacquer over it: low metalness plus clearcoat. `metalness: 0.55` was why the
-body read as a toy. Related: the GLB bakes in a disc named `shadow` which must
-*leave the scene graph*, not merely be hidden — `Box3.setFromObject` ignores
-the visible flag, so a hidden 4 m disc still inflates the bounding box and
-makes `<Bounds>` frame the car far too small.
-
-**5. `<Bounds clip>` left the canvas empty.** `clip` pulls the camera's near
-and far planes tight around what `<Bounds>` measured — and it measures before
-the GLTF has finished loading and before `CarMesh` has dropped the baked shadow
-disc, so the planes bracket the wrong volume and the car is clipped away
-entirely. The symptom is not a half-drawn car: it is an empty canvas on a
-correct background, a live WebGL context, and no console error — which is why
-it cost four screenshots and a bisect to find. `fit observe` without `clip` is
-what ships.
-
-**6. This machine runs out of RAM before it runs out of patience.** 7.4 GB
+**3. This machine runs out of RAM before it runs out of patience.** 7.4 GB
 total, and a dev server plus a production build plus a couple of agents is over
 the line: Turbopack dies with `memory allocation of 16777216 bytes failed` and
 exit code 127, which reads like a missing binary and is nothing of the sort.
 **Do not run the full `verify.ps1` while `next dev` is up** — use `-Quick`
 (types + tests, no build) during development, and stop the dev server before the
 full gate. Same reason parallel agents are capped at a handful rather than a
-fleet.
+fleet. On Windows, stopping the shell that ran `next dev` does not always stop
+its node process: check that port 3001 is free before trusting that it is gone.
 
 ## One false alarm, so nobody chases it twice
 
