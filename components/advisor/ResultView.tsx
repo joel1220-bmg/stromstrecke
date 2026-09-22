@@ -1,7 +1,14 @@
 "use client";
 
 import { useMemo } from "react";
-import { BODY_CHIP, COPY, MONTH_LABEL } from "@/lib/copy";
+import {
+  BODY_CHIP,
+  COPY,
+  MONTH_LABEL,
+  dismissCarLabel,
+  restoreDismissed,
+  resultCount,
+} from "@/lib/copy";
 import { formatEUR, formatRangeKm } from "@/lib/engine/parse";
 import { formatCarName } from "@/lib/engine/labels";
 import { formatDeUnit } from "@/components/ui/Num";
@@ -29,6 +36,9 @@ type Props = {
   selectedId: string | null;
   onSelect: (id: string | null) => void;
   onDismiss: (id: string) => void;
+  /** Cars the reader set aside that the current answers would otherwise show. */
+  dismissedCount: number;
+  onRestore: () => void;
   onEdit: () => void;
   onReset: () => void;
 };
@@ -60,6 +70,8 @@ export function ResultView({
   selectedId,
   onSelect,
   onDismiss,
+  dismissedCount,
+  onRestore,
   onEdit,
   onReset,
 }: Props) {
@@ -112,7 +124,7 @@ export function ResultView({
             Erste Auswahl
           </p>
           <h2 className="serif mt-2 text-2xl text-paper sm:text-3xl">
-            {results.length} Autos in der Auswahl
+            {resultCount(results.length)}
           </h2>
           <p className="mt-2 max-w-xl text-sm text-muted">{COPY.wltpAlways}</p>
         </div>
@@ -131,6 +143,18 @@ export function ResultView({
           >
             {COPY.reset}
           </button>
+          {/* The way back from "Aussortieren". Without it a mis-tap could only
+              be undone by going back into the form and submitting again. With
+              no card left the empty state below offers it instead, larger. */}
+          {dismissedCount > 0 && results.length > 0 ? (
+            <button
+              type="button"
+              onClick={onRestore}
+              className="min-h-10 rounded-full border border-graphite-line px-4 text-sm text-paper hover:border-gold"
+            >
+              {restoreDismissed(dismissedCount)}
+            </button>
+          ) : null}
         </div>
       </div>
 
@@ -142,8 +166,9 @@ export function ResultView({
         </p>
       ) : null}
 
-      <p className="text-sm text-muted">{COPY.skipCheck}</p>
-
+      {/* "Sie dürfen das auch weglassen." stood here until 22.09.2026, between
+          the buttons and the cards, with nothing for "das" to point at. It
+          belongs to the Autobahn check and is still shown there. */}
       <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {results.map((r) => {
           const active = selected?.car.id === r.car.id;
@@ -156,6 +181,7 @@ export function ResultView({
               <button
                 type="button"
                 onClick={() => onSelect(r.car.id)}
+                aria-pressed={active}
                 className={`flex-1 w-full rounded-2xl border p-3 text-left transition-colors ${
                   active
                     ? "border-gold bg-graphite-card"
@@ -215,6 +241,7 @@ export function ResultView({
               <button
                 type="button"
                 onClick={() => onDismiss(r.car.id)}
+                aria-label={dismissCarLabel(formatCarName(r.car))}
                 className="mt-2 min-h-11 w-full text-center text-sm font-medium text-danger underline underline-offset-2 hover:text-danger-strong"
               >
                 {COPY.dismissCar}
@@ -231,6 +258,31 @@ export function ResultView({
         one setting for the whole comparison anyway, not a property of one car.
         Only the per-car detail below still needs a car.
       */}
+      {results.length === 0 ? (
+        /* Two different empty screens. Answers that match nothing need other
+           answers; a reader who set every car aside needs them back. Until
+           22.09.2026 both got the first sentence, under an Autobahn check with
+           no car left to check. */
+        <div className="space-y-3 rounded-2xl border border-graphite-line bg-graphite-card p-4">
+          {dismissedCount > 0 ? (
+            <>
+              <p className="text-paper">{COPY.allDismissed}</p>
+              <button
+                type="button"
+                onClick={onRestore}
+                className="min-h-11 rounded-full bg-gold px-5 text-sm font-semibold text-graphite hover:bg-gold-dim"
+              >
+                {restoreDismissed(dismissedCount)}
+              </button>
+            </>
+          ) : (
+            <>
+              <p className="text-paper">{COPY.emptyCatalog}</p>
+              <p className="text-sm text-muted">{COPY.emptyCatalogHelp}</p>
+            </>
+          )}
+        </div>
+      ) : (
       <section className="space-y-6">
         {selected ? (
           <div>
@@ -595,10 +647,7 @@ export function ResultView({
           </div>
           ) : null}
       </section>
-
-      {results.length === 0 ? (
-        <p className="text-muted">Mit diesen Angaben finden wir gerade kein Auto.</p>
-      ) : null}
+      )}
 
       {/* The "Nächster Schritt" card is hidden for now, by request. It asked the
           reader to go and note where they could charge — a homework assignment
@@ -606,7 +655,8 @@ export function ResultView({
           copy survives in COPY.morningStep; bring the card back once the result
           itself answers "what should I expect?" well enough that a next step
           reads as a natural move rather than an interruption. */}
-      <p className="text-xs text-muted">{COPY.notCertified}</p>
+      {/* COPY.notCertified stood here as well until 22.09.2026, directly above
+          the site footer, which says the same sentence on every page. */}
     </div>
   );
 }

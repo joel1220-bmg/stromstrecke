@@ -100,7 +100,11 @@ export const COPY = {
   tripDrive: "Fahrt",
   tripCharge: "Laden extra",
   tripTotal: "Gesamt",
-  dismissCar: "Passt nicht",
+  /* Hieß bis zum 22.09.2026 "Passt nicht". Rot unter jeder Karte las sich das
+     wie ein Urteil über das Auto, nicht wie ein Knopf: mit den Standardantworten
+     stand unter allen vier Autos ein rotes "Passt nicht". Ein Verb sagt, dass
+     hier etwas passiert. */
+  dismissCar: "Aussortieren",
 
   autobahnTitle: "Autobahn-Check",
   /* Sagte bis zum 18.09.2026 "sortiert nach Ladestopps". Diese Sortierung
@@ -293,12 +297,9 @@ export const COPY = {
   // Simplified 13.09.2026 (copy-guard audit): "in der engeren Auswahl" is
   // report-register filler a beginner has to parse before reaching the
   // actual news (no car found). "Kein passendes ... Auto" says the same
-  // true thing in fewer, plainer words. Still not wired into
-  // ResultView.tsx, which now has *two* independent hardcoded stand-ins
-  // for this string, not one: line ~675 ("Mit diesen Angaben finden wir
-  // gerade kein Auto.", no help text at all) for an empty catalogue, and
-  // the separate budgetEmptyNotice case below for an empty two-sided price
-  // window. Whoever owns ResultView.tsx should read both from here instead.
+  // true thing in fewer, plainer words. Wired into ResultView.tsx on
+  // 22.09.2026, replacing its hardcoded "Mit diesen Angaben finden wir
+  // gerade kein Auto." that carried no help text at all.
   emptyCatalog: "Mit diesen Angaben finden wir gerade kein passendes E-Auto.",
   // "Weiß ich nicht" only names an actual option on the Form question
   // (MultiChipGroup's unknown toggle). Kaufpreis has no chip of that name —
@@ -326,7 +327,29 @@ export const COPY = {
    */
   budgetEmptyNotice:
     "In Ihrem Budget finden wir gerade kein Auto. Die folgenden liegen preislich am nächsten, aber außerhalb Ihres Budgets.",
+  /* Added 22.09.2026. Until then a reader who set aside every car read
+     "Mit diesen Angaben finden wir gerade kein Auto", which blamed the answers
+     for something the reader had just done, with no way back on screen. */
+  allDismissed: "Sie haben alle Autos aussortiert.",
 } as const;
+
+/* Counted strings. Kept here with the rest of the copy rather than assembled
+   in the component, which is how "1 Autos in der Auswahl" came about. */
+export function resultCount(n: number): string {
+  return `${n} ${n === 1 ? "Auto" : "Autos"} in der Auswahl`;
+}
+
+export function restoreDismissed(n: number): string {
+  return n === 1
+    ? "Aussortiertes Auto wieder zeigen"
+    : `${n} aussortierte Autos wieder zeigen`;
+}
+
+/* The dismiss button's accessible name. Four buttons all called
+   "Aussortieren" tell a screen-reader user nothing about which car goes. */
+export function dismissCarLabel(carName: string): string {
+  return `${carName} aussortieren`;
+}
 
 /** Landing tiles. Title and body, in the order they stand on the page. */
 export const LANDING_TILES = [

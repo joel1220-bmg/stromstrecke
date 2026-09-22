@@ -52,6 +52,14 @@ export function AdvisorApp() {
     return evaluation.results.filter((r) => !dismissed.has(r.car.id)).slice(0, 4);
   }, [evaluation.results, dismissedIds]);
 
+  /* Counted against the current answers, not the raw list: a car set aside
+     under an earlier filter that the answers no longer show would otherwise
+     be offered back and then not appear. */
+  const dismissedCount = useMemo(() => {
+    const dismissed = new Set(dismissedIds);
+    return evaluation.results.filter((r) => dismissed.has(r.car.id)).length;
+  }, [evaluation.results, dismissedIds]);
+
   /*
    * A selection only counts while the car is still on screen — change a filter
    * and the chosen car can drop out of the visible three. That is derived
@@ -112,6 +120,8 @@ export function AdvisorApp() {
           selectedId={activeId}
           onSelect={setSelectedId}
           onDismiss={onDismiss}
+          dismissedCount={dismissedCount}
+          onRestore={() => setDismissedIds([])}
           onEdit={() => setPhase("form")}
           onReset={onReset}
         />
