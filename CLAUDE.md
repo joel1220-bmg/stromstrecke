@@ -70,8 +70,10 @@ three worst bugs so far were invisible in the code and obvious on screen.
 
 ## Deploy
 
-stromstrecke.de is a static export on lima-city. `npx next build` writes it to
-`out/`; the **contents** of `out/` go into the web root, including the hidden
+stromstrecke.de is a static export on lima-city. `npm run build` writes it to
+`out/` (its postbuild step repairs a Windows-only naming bug in Next's export,
+see `scripts/flatten-export-segments.mjs`; a bare `npx next build` skips it);
+the **contents** of `out/` go into the web root, including the hidden
 `.htaccess`, which carries the security headers, the www redirect and the cache
 rules. There is no Node server in production, so `headers()` in
 `next.config.ts` only applies to `next dev`; `lib/htaccess.test.ts` keeps the
@@ -90,6 +92,12 @@ Until 22.09.2026 the export settings were in no commit, and the live site was
 built from somewhere outside this repository: on 22.09. it still served the
 state of 14.09. while the repository had four days more. Build what is
 committed, and after a deploy check `/impressum/` and `/datenschutz/` live.
+
+Upload into a new, empty folder on the webspace, unpack it there, then point
+the site at it (lima-city: Webseiten → Inhalt ändern). Unpacking over existing
+files opens a confirmation that browser automation cannot see or answer; a
+fresh folder avoids it, switches the site in one step and leaves the previous
+folder as a ready rollback.
 
 ## Rules that are not style preferences
 

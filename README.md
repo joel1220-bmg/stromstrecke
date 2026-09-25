@@ -75,7 +75,7 @@ npx next typegen && npx tsc --noEmit && npx vitest run && npx eslint . && npx ne
 
 ## Veröffentlichen
 
-`npx next build` schreibt einen statischen Export nach `out/`. Dessen **Inhalt** kommt ins Web-Verzeichnis bei lima-city, auch die versteckte Datei `.htaccess`: Sie setzt die Sicherheits-Header, leitet `www.` auf die Domain ohne `www.` um und regelt das Caching. Danach `/impressum/` und `/datenschutz/` live kontrollieren.
+`npm run build` schreibt einen statischen Export nach `out/`. Unter Windows korrigiert ein Nachlauf-Schritt dabei einen Namensfehler im Export von Next (`scripts/flatten-export-segments.mjs`); ein bloßes `npx next build` lässt ihn aus. Dessen **Inhalt** kommt ins Web-Verzeichnis bei lima-city, auch die versteckte Datei `.htaccess`: Sie setzt die Sicherheits-Header, leitet `www.` auf die Domain ohne `www.` um und regelt das Caching. Am sichersten in einen neuen, leeren Ordner hochladen, dort entpacken und dann unter „Webseiten → Inhalt ändern“ die Domain darauf umstellen; der vorige Ordner bleibt als Rückfall. Danach `/impressum/` und `/datenschutz/` live kontrollieren.
 
 Name und Anschrift für Impressum und Datenschutz stehen bewusst nicht im Repository, sondern in `.env.local` (von Git ignoriert):
 
