@@ -19,12 +19,14 @@ export const metadata: Metadata = {
  * and not something to improve in passing. Two things were noticed while
  * copying and deliberately left alone, to be raised with the operator instead:
  *
- * - lima-city sets a `_lcp` cookie on every request, valid into 2034, and this
- *   text did not mention it. Added on 22.09.2026 at the operator's request, as
- *   facts only: the value is the constant "a" (checked with two fresh requests,
- *   same value, same fixed expiry), it is HttpOnly, and this site never reads
- *   it. What lima-city uses it for, and so its legal basis, is not stated,
- *   because it is not known here. "Ohne Haken wird nichts geschrieben" now says
+ * - lima-city sets two cookies, and this text did not mention them. Added on
+ *   22.09.2026 at the operator's request, as facts only, and corrected on
+ *   25.09.2026: `_lcp` arrives in a Set-Cookie header on the first request
+ *   (HttpOnly), `_lcp3` from a script lima-city appends to every HTML page,
+ *   which is also why no served page is byte-identical to the build. Both hold
+ *   the constant "a" and expire 20.03.2034; this site reads neither. What
+ *   lima-city uses them for, and so their legal basis, is not stated, because
+ *   it is not known here. "Ohne Haken wird nichts geschrieben" now says
  *   who writes nothing, since the host does write something.
  * - The three COPY lines below are UI strings quoted into the legal text. That
  *   may well be intentional - it shows the reader the exact wording used on
@@ -68,9 +70,10 @@ export default function DatenschutzPage() {
         Auftragsverarbeiter (Art. 28 DSGVO) und löscht die Protokolldaten nach sieben Tagen.
       </p>
       <p className="mt-2 text-paper">
-        Außerdem setzt lima-city bei jedem Aufruf ein Cookie namens „_lcp“. Es enthält nur den
-        festen Wert „a“ und damit keine Kennung, an der Sie wiedererkannt werden könnten.
-        Stromstrecke liest dieses Cookie nicht und nutzt es weder für Werbung noch für Tracking.
+        Außerdem setzt lima-city zwei Cookies: „_lcp“ beim ersten Aufruf und „_lcp3“ über ein
+        Skript, das lima-city in jede Seite einfügt. Beide enthalten nur den festen Wert „a“ und
+        damit keine Kennung, an der Sie wiedererkannt werden könnten, und gelten bis März 2034.
+        Stromstrecke liest diese Cookies nicht und nutzt sie weder für Werbung noch für Tracking.
       </p>
 
       <h2 className="serif mt-8 text-xl text-gold">E-Mail</h2>
