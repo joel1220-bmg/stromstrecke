@@ -14,6 +14,7 @@ import type {
   Assumption,
   BodyStyle,
   Car,
+  CatalogMeta,
   CarResult,
   ChargeOption,
   Draft,
@@ -27,6 +28,7 @@ import type {
 // both shapes so an old cached copy of the file never breaks the build.
 const cars = ((carsJson as { cars?: Car[] }).cars ??
   (carsJson as unknown as Car[])) as Car[];
+const catalogMeta = (carsJson as { meta?: CatalogMeta }).meta;
 const climate = climateJson as { months: Record<string, number> };
 const routes = (routesJson as unknown as { routes: RouteDef[] }).routes;
 
@@ -39,6 +41,14 @@ const routes = (routesJson as unknown as { routes: RouteDef[] }).routes;
  * again promising a distance the map cannot draw.
  */
 const SPINE = routes.find((r) => r.id === "spineDe")!;
+
+/**
+ * Date the car catalog was compiled (YYYY-MM-DD), for the data note under the
+ * result. Null only for the old bare-array shape, which carries no meta.
+ */
+export function catalogAsOf(): string | null {
+  return catalogMeta?.asOf ?? null;
+}
 
 /** Longest trip the sketch corridor can actually show, in whole tens of km. */
 export function tripMaxKm(): number {

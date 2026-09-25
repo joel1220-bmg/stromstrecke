@@ -51,3 +51,9 @@ export function formatKm(n: number): string {
 export function formatRangeKm(low: number, high: number): string {
   return `${formatDeNumber(Math.round(low))}–${formatDeNumber(Math.round(high))}\u00a0km`;
 }
+
+/** "2026-09-13" → "13.09.2026". Anything that is not a plain ISO date is returned unchanged. */
+export function formatDeDate(iso: string): string {
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso);
+  return match ? `${match[3]}.${match[2]}.${match[1]}` : iso;
+}

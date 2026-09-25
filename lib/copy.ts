@@ -56,6 +56,12 @@ export const COPY = {
   remember: "Angaben merken. Nur in diesem Browser, kein Konto.",
   rememberOff: "Ohne Haken bleibt nichts gespeichert.",
   notCertified: "Keine zertifizierte Beratung. Kein Angebot.",
+  // Deliberate change, 15.09.2026, restored 25.09.2026: data/cars.de.json
+  // calls itself an unverified seed catalog. Saying so next to the numbers is
+  // the product's own claim applied to its data. See docs/copy-v1.md.
+  carDataNote:
+    "Fahrzeugdaten aus Herstellerangaben und anderen Quellen, Stand {asOf}, nicht einzeln geprüft. Maßgeblich sind die Angaben der Hersteller.",
+  carDataReport: "Einen Fehler gefunden? Kontakt steht im Impressum.",
   assumedBanner: "Kursiv bedeutet von uns angenommen, nicht von Ihnen eingegeben.",
 
   wltpAlways:

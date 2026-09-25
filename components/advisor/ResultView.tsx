@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useMemo } from "react";
 import {
   BODY_CHIP,
@@ -9,7 +10,7 @@ import {
   restoreDismissed,
   resultCount,
 } from "@/lib/copy";
-import { formatEUR, formatRangeKm } from "@/lib/engine/parse";
+import { formatDeDate, formatEUR, formatRangeKm } from "@/lib/engine/parse";
 import { formatCarName } from "@/lib/engine/labels";
 import { formatDeUnit } from "@/components/ui/Num";
 import type {
@@ -22,7 +23,7 @@ import type {
 import { tripTotalMid } from "@/lib/advisor/compare";
 import { GermanyMap } from "@/components/showroom/GermanyMap";
 import { Disclosure } from "@/components/ui/Disclosure";
-import { tripMaxKm } from "@/lib/engine/evaluate";
+import { catalogAsOf, tripMaxKm } from "@/lib/engine/evaluate";
 import { ControlBar } from "./ControlBar";
 
 type Props = {
@@ -666,7 +667,22 @@ export function ResultView({
           itself answers "what should I expect?" well enough that a next step
           reads as a natural move rather than an interruption. */}
       {/* COPY.notCertified stood here as well until 22.09.2026, directly above
-          the site footer, which says the same sentence on every page. */}
+          the site footer, which says the same sentence on every page. The data
+          note says something the footer does not, so it stays. */}
+      <p className="text-xs text-muted">
+        {carDataNote()}{" "}
+        <Link href="/impressum" className="underline hover:text-accent">
+          {COPY.carDataReport}
+        </Link>
+      </p>
     </div>
   );
+}
+
+/** The data note with the catalog date filled in, or without the date if the catalog has none. */
+function carDataNote(): string {
+  const asOf = catalogAsOf();
+  return asOf
+    ? COPY.carDataNote.replace("{asOf}", formatDeDate(asOf))
+    : COPY.carDataNote.replace(", Stand {asOf}", "");
 }

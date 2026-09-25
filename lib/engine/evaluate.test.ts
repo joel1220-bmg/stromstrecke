@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { buildAssumptions, evaluateCars, resolveDraft } from "./evaluate";
+import { buildAssumptions, catalogAsOf, evaluateCars, resolveDraft } from "./evaluate";
 import { emptyDraft } from "./types";
 
 describe("resolveDraft defaults", () => {
@@ -312,5 +312,11 @@ describe("Kauf-Lotse Autobahn 140 km/h / 450 km (Seal / ID.7 / M3)", () => {
     expect(byId("byd-seal").trip.stops.length).toBe(1);
     expect(byId("vw-id7").trip.stops.length).toBe(1);
     expect(byId("tesla-m3").trip.stops.length).toBe(2);
+  });
+});
+
+describe("catalogAsOf", () => {
+  it("reads the catalog date from the data file's meta block", () => {
+    expect(catalogAsOf()).toMatch(/^\d{4}-\d{2}-\d{2}$/);
   });
 });

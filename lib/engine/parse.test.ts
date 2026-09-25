@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { formatDeNumber, formatEUR, parseDeNumber } from "./parse";
+import { formatDeDate, formatDeNumber, formatEUR, parseDeNumber } from "./parse";
 
 describe("parseDeNumber", () => {
   it("parses plain integers", () => {
@@ -31,5 +31,16 @@ describe("formatDeNumber", () => {
   it("formats DE", () => {
     expect(formatDeNumber(1234)).toBe("1.234");
     expect(formatEUR(41990)).toContain("41.990");
+  });
+});
+
+describe("formatDeDate", () => {
+  it("turns an ISO date into the German form", () => {
+    expect(formatDeDate("2026-09-13")).toBe("13.09.2026");
+  });
+
+  it("leaves anything else untouched", () => {
+    expect(formatDeDate("13.09.2026")).toBe("13.09.2026");
+    expect(formatDeDate("")).toBe("");
   });
 });

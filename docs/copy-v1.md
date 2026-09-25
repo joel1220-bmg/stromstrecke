@@ -240,6 +240,17 @@ Beispiele:
 
 **notCertified:** Keine zertifizierte Beratung. Kein Angebot.
 
+**carDataNote:** Fahrzeugdaten aus Herstellerangaben und anderen Quellen, Stand {asOf}, nicht einzeln geprüft. Maßgeblich sind die Angaben der Hersteller.
+
+**carDataReport:** Einen Fehler gefunden? Kontakt steht im Impressum. (verlinkt auf /impressum)
+
+> **Deliberate change, 15.09.2026, wiederhergestellt 25.09.2026:** carDataNote
+> und carDataReport stehen am Ende des Ergebnisses. Grund: Die Seite ist live,
+> und `data/cars.de.json` beschreibt sich selbst als ungeprüften Startkatalog
+> (52 von 61 Autos mit UNVERIFIED-Notiz). {asOf} kommt aus `meta.asOf`, damit
+> der Stand beim nächsten Daten-Update nicht stumm veraltet. Am 15.09. gebaut,
+> aber nie gepusht; deshalb fehlte der Hinweis bis zum 25.09. in main.
+
 **assumedBanner:** Grau markiert = von uns angenommen, nicht von Ihnen eingegeben.
 
 **editQuestions:** Angaben ändern
