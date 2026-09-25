@@ -77,6 +77,15 @@ rules. There is no Node server in production, so `headers()` in
 `next.config.ts` only applies to `next dev`; `lib/htaccess.test.ts` keeps the
 two in step.
 
+**The operator's name and address never go into the repository.** Impressum
+and Datenschutz read them from `.env.local` at build time (`lib/operator.ts`,
+variable names in the README). The repository is public and its history is
+permanent: on 18.09.2026 a session found a placeholder here and the real
+details live, and copied them into the code, where they stood in public until
+25.09. A build without `.env.local` fails on purpose (CI excepted, it deploys
+nothing). If the details are missing, ask for them; never type them into a file
+that Git tracks.
+
 Until 22.09.2026 the export settings were in no commit, and the live site was
 built from somewhere outside this repository: on 22.09. it still served the
 state of 14.09. while the repository had four days more. Build what is

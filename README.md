@@ -77,6 +77,17 @@ npx next typegen && npx tsc --noEmit && npx vitest run && npx eslint . && npx ne
 
 `npx next build` schreibt einen statischen Export nach `out/`. Dessen **Inhalt** kommt ins Web-Verzeichnis bei lima-city, auch die versteckte Datei `.htaccess`: Sie setzt die Sicherheits-Header, leitet `www.` auf die Domain ohne `www.` um und regelt das Caching. Danach `/impressum/` und `/datenschutz/` live kontrollieren.
 
+Name und Anschrift für Impressum und Datenschutz stehen bewusst nicht im Repository, sondern in `.env.local` (von Git ignoriert):
+
+```
+IMPRESSUM_NAME=…
+IMPRESSUM_STRASSE=…
+IMPRESSUM_ORT=…
+IMPRESSUM_EMAIL=…
+```
+
+Fehlt eine Angabe, bricht der Build ab, statt eine Seite mit Platzhalter-Impressum zu erzeugen. Nur in der CI baut er mit Platzhaltern durch, dort wird nichts veröffentlicht.
+
 ## Arbeitsweise
 
 Das Projekt ist mit KI-Unterstützung entstanden, mit [Claude Code](https://claude.com/claude-code). Die Arbeit ist auf spezialisierte Agenten mit festen Dateibereichen aufgeteilt ([`.claude/agents/`](.claude/agents)), Regeln und bekannte Stolperfallen stehen in [`CLAUDE.md`](CLAUDE.md). Viele Commits sind deshalb als „Claude“ signiert.
