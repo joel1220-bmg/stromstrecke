@@ -159,6 +159,16 @@ const AVG_KW_10_80: Record<string, KwSpan> = {
      Die Spanne ist eng gesetzt, weil die Zeit aus einer Quelle stammt und nicht
      aus einer Bandbreite. */
   "vw-id-polo": { low: 82, mid: 90, high: 98 },
+
+  /* --- 26.10.2026, smart #2 -------------------------------------------------
+     65 kW Peak, 35,8 kWh LFP brutto. Smart nennt "unter 20 Minuten" fuer 10 auf
+     80 Prozent; das waeren mit ~34 kWh netto ueber 70 kW Schnitt, mehr als der
+     Peak - die Angabe kann so nicht stimmen. Deshalb die Kurvenklasse `flat`
+     aus dem Ladekurve-Lock (LFP haelt die Leistung lange) als Mitte, und die
+     Obergrenze bis knapp unter den Peak geweitet, weil der ID. Polo oben zeigt,
+     dass kleine Akkus naeher am Peak bleiben als der Fallback annimmt.
+     Abgeleitet, nicht gemessen. */
+  "smart-2": { low: 38, mid: 45, high: 60 },
 };
 
 const FALLBACK_TYPICAL = 0.55;

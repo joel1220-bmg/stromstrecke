@@ -445,6 +445,22 @@
       "notes": "UNVERIFIED (13.09.2026): all figures from memory. Check usableKwh, wltpKm and dcPeakKw against Smart's German data sheet before go-live."
     },
     {
+      "id": "smart-2",
+      "brand": "Smart",
+      "model": "#2 Pure+",
+      "body": "hatch",
+      "seats": 2,
+      "listEur": 20990,
+      "usableKwh": 34.0,
+      "wltpKm": 290,
+      "highwayKwhPer100": 17.0,
+      "dcPeakKw": 65,
+      "heatPump": false,
+      "colorHex": "#D9DCD6",
+      "asOf": "2026-10-26",
+      "notes": "PRELIMINARY (26.10.2026): Smart's own figures from the German launch (pre-orders since 13.10.2026, deliveries from mid-2027), as reported by insideevs.de, elektroquatsch.de and mbpassion.de; not checked against a Smart data sheet. Sourced: listEur 20.990 (Pure+, the cheapest trim with 11 kW AC; Pure is 19.990 but charges AC at 4.6 kW in Germany), 35.8 kWh LFP gross, wltpKm 290 (a target value, type approval still pending), 13.6 kWh/100 km WLTP, dcPeakKw 65, 2 seats, top speed 140 km/h. Assumed: usableKwh 34.0 (~95 % of gross, typical for LFP; no net figure published), highwayKwhPer100 17.0 (1.45 x implied WLTP, inside the catalog's 1.24-1.57 band; short tall car), heatPump false (not mentioned in any source). Smart claims 10-80 % in under 20 min, which 65 kW peak cannot deliver for ~24 kWh (needs >70 kW average); lib/engine/charge.ts uses the lock's 'flat' class instead. The engine has no top-speed field: settings above 140 km/h overstate what this car can do."
+    },
+    {
       "id": "citroen-ec3",
       "brand": "Citroën",
       "model": "ë-C3 Max",
