@@ -448,3 +448,47 @@ export const MONTH_LABEL: Record<number, string> = {
   11: "November",
   12: "Dezember",
 };
+
+/*
+ * Car pages under /auto/<id>/ and the overview /auto/. Added 11.11.2026 as a
+ * deliberate extension, not a change to any locked question: the advisor
+ * renders in the browser, so search engines and anyone arriving from a video
+ * found no readable answer. These strings explain the same spans the advisor
+ * shows, one car at a time. Placeholders in {braces} are filled by the page.
+ */
+export const AUTO_PAGE = {
+  overviewTitle: "Alle Autos im Überblick",
+  overviewLead:
+    "Für jedes Auto im Katalog: wie weit es im Winter und im Sommer auf der Autobahn wirklich kommt, als Spanne, und was das für eine lange Fahrt bedeutet.",
+  metaTitle: "{car}: Reichweite im Winter auf der Autobahn",
+  metaDescription:
+    "Wie weit kommt der {car} wirklich? Autobahn-Reichweite im Januar und Juli bei 110 und 130 km/h als Spanne, dazu Ladestopps auf {route}.",
+  h1: "{car}: Wie weit kommen Sie wirklich?",
+  lead:
+    "Der Prüfstand nennt {wltp}. Auf der Autobahn hängt die Reichweite vor allem an Tempo und Jahreszeit: bei 130 km/h und im Winter bleibt deutlich weniger. Hier steht, womit Sie rechnen sollten.",
+  rangeHeading: "Reichweite auf der Autobahn",
+  rangeExplain:
+    "Mit vollem Akku bis fast leer, {persons} Personen an Bord. Jede Zahl ist eine Spanne, weil Wind, Steigung und Fahrweise dazukommen.",
+  rangeRow: "{month}, {speed}",
+  tripHeading: "Eine lange Fahrt: {route}",
+  tripExplain:
+    "{km} Autobahn, mit vollem Akku los. So viele Pausen zum Laden kommen dazu, und so lange dauert die Fahrt insgesamt.",
+  tripRow: "{month} bei {speed}",
+  tripStops: "{n} Ladestopps, zusammen etwa {min} laden",
+  tripNoStop: "ohne Ladestopp",
+  tripTotal: "Fahrzeit mit Laden: {span}",
+  assumptions:
+    "Angenommen, nicht gemessen: deutsche Monatsmittel für die Temperatur (Januar {winterC}, Juli {summerC}), Schnelllader mit vorgewärmtem Akku. Im Berater können Sie jede Annahme ändern.",
+  cta: "Mit eigenen Angaben nachrechnen",
+  ctaHint: "Monat, Tempo, Strecke und Ladestand selbst wählen.",
+  unverified:
+    "Für dieses Auto sind einzelne Herstellerangaben noch nicht abschließend geprüft. Die Spanne kann deshalb breiter sein als hier gezeigt.",
+  listPrice: "Listenpreis ab etwa {price}",
+  allCars: "Alle Autos im Überblick",
+  overviewNote: "{month}, {speed}, voller Akku: Spanne der Autobahn-Reichweite.",
+} as const;
+
+/** Fill {placeholders} in an AUTO_PAGE string. Unknown keys stay visible. */
+export function fillCopy(template: string, values: Record<string, string>): string {
+  return template.replace(/\{(\w+)\}/g, (m, k: string) => values[k] ?? m);
+}

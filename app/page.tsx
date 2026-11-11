@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ChargingScene } from "@/components/showroom/ChargingScene";
-import { COPY, LANDING_TILES } from "@/lib/copy";
+import { AUTO_PAGE, COPY, LANDING_TILES } from "@/lib/copy";
 
 /* Per page, never in the layout: a canonical set on the root element is
    inherited by every route, so /berater would name the home page as the
@@ -67,6 +67,13 @@ export default function HomePage() {
           </li>
         ))}
       </ol>
+
+      <section className="mt-12 max-w-3xl">
+        <Link href="/auto/" className="serif text-xl text-accent underline-offset-4 hover:underline">
+          {AUTO_PAGE.allCars}
+        </Link>
+        <p className="mt-2 text-sm leading-relaxed text-muted">{AUTO_PAGE.overviewLead}</p>
+      </section>
 
       <p className="mt-10 max-w-3xl text-xs leading-relaxed text-muted">{COPY.wltpAlways}</p>
     </div>
