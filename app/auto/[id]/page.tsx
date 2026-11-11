@@ -3,8 +3,10 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import climateJson from "@/data/climate-months.de.json";
 import { formatDeSpan, formatDeUnit } from "@/components/ui/Num";
-import { AUTO_MONTHS, AUTO_ROUTE_ID, autoPageData, carById } from "@/lib/autopage";
-import { AUTO_PAGE, COPY, MONTH_LABEL, fillCopy } from "@/lib/copy";
+import { JsonLd } from "@/components/JsonLd";
+import { AUTO_MONTHS, AUTO_ROUTE_ID, autoPageData, carById, comparableCars } from "@/lib/autopage";
+import { AUTO_PAGE, BODY_CHIP, COPY, MONTH_LABEL, fillCopy } from "@/lib/copy";
+import { breadcrumbs, isoToDe, pageMeta, withSuffix } from "@/lib/seo";
 import { catalogAsOf, getCars, getRoute } from "@/lib/engine/evaluate";
 import { formatCarName } from "@/lib/engine/labels";
 
@@ -41,17 +43,12 @@ export async function generateMetadata({
   const car = carById(id);
   if (!car) return {};
   const name = formatCarName(car);
-  const title = `${fillCopy(AUTO_PAGE.metaTitle, { car: name })} · Stromstrecke`;
+  const title = withSuffix(fillCopy(AUTO_PAGE.metaTitle, { car: name }));
   const description = fillCopy(AUTO_PAGE.metaDescription, {
     car: name,
     route: getRoute(AUTO_ROUTE_ID)?.name ?? "",
   });
-  return {
-    title,
-    description,
-    alternates: { canonical: `/auto/${car.id}/` },
-    openGraph: { title, description },
-  };
+  return pageMeta({ title, description, path: `/auto/${car.id}/` });
 }
 
 export default async function AutoPage({ params }: { params: Promise<{ id: string }> }) {
@@ -62,9 +59,23 @@ export default async function AutoPage({ params }: { params: Promise<{ id: strin
   const name = formatCarName(car);
   const asOf = catalogAsOf();
   const speed = (s: number) => formatDeUnit(s, "km/h");
+  /* January at 130 km/h: the case beginners worry about, used for the facts,
+     the comparison and the ranking below. */
+  const hard = data.cells[1];
+  const similar = comparableCars(car, 3).map((c) => ({ car: c, range: autoPageData(c).cells[1].range }));
+  const group = [{ car, range: hard.range }, ...similar];
+  const byMid = [...group].sort((a, b) => b.range.midKm - a.range.midKm);
+  const pct = (km: number) => Math.round((km / car.wltpKm) * 100);
 
   return (
     <article className="mx-auto max-w-3xl px-4 pb-20 pt-8 sm:pt-12">
+      <JsonLd
+        data={breadcrumbs([
+          { name: "Stromstrecke", path: "/" },
+          { name: AUTO_PAGE.allCars, path: "/auto/" },
+          { name, path: `/auto/${car.id}/` },
+        ])}
+      />
       <p className="text-sm font-medium uppercase tracking-[0.14em] text-gold">
         <Link href="/auto/" className="hover:text-accent">
           {AUTO_PAGE.allCars}
@@ -143,6 +154,54 @@ export default async function AutoPage({ params }: { params: Promise<{ id: strin
         </ul>
       </section>
 
+      <section className="mt-10">
+        <h2 className="serif text-2xl text-paper">{AUTO_PAGE.factsHeading}</h2>
+        <ul className="mt-4 space-y-2 text-ink">
+          <li>{fillCopy(AUTO_PAGE.factBattery, { kwh: formatDeUnit(car.usableKwh, "kWh", car.usableKwh % 1 ? 1 : 0) })}</li>
+          <li>{fillCopy(AUTO_PAGE.factCharge, { kw: formatDeUnit(car.dcPeakKw, "kW") })}</li>
+          <li>{fillCopy(AUTO_PAGE.factBody, { body: BODY_CHIP[car.body], seats: String(car.seats) })}</li>
+          <li>{car.heatPump ? AUTO_PAGE.factHeatPumpYes : AUTO_PAGE.factHeatPumpNo}</li>
+          <li>
+            {fillCopy(AUTO_PAGE.factWltpShare, {
+              month: MONTH_LABEL[hard.month],
+              speed: speed(hard.speedKph),
+              span: formatDeSpan(pct(hard.range.lowKm), pct(hard.range.highKm), { unit: "%" }),
+            })}
+          </li>
+        </ul>
+      </section>
+
+      <section className="mt-10">
+        <h2 className="serif text-2xl text-paper">{AUTO_PAGE.similarHeading}</h2>
+        <p className="mt-2 text-muted">
+          {fillCopy(AUTO_PAGE.similarExplain, { month: MONTH_LABEL[hard.month], speed: speed(hard.speedKph) })}
+        </p>
+        <ul className="mt-4 divide-y divide-line rounded-2xl border border-line bg-surface">
+          {similar.map(({ car: c, range }) => (
+            <li key={c.id}>
+              <Link
+                href={`/auto/${c.id}/`}
+                className="flex min-h-12 items-baseline justify-between gap-4 px-5 py-3 hover:text-accent"
+              >
+                <span className="text-ink">{formatCarName(c)}</span>
+                <span className="tabular-nums text-muted">
+                  {formatDeSpan(range.lowKm, range.highKm, { unit: "km" })}
+                </span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+        <p className="mt-3 text-sm text-muted">
+          {fillCopy(AUTO_PAGE.rankLine, {
+            n: String(group.length),
+            month: MONTH_LABEL[hard.month],
+            speed: speed(hard.speedKph),
+            best: formatCarName(byMid[0].car),
+            worst: formatCarName(byMid[byMid.length - 1].car),
+          })}
+        </p>
+      </section>
+
       <p className="mt-8 text-sm italic text-muted">
         {fillCopy(AUTO_PAGE.assumptions, {
           winterC: celsius(climate.months[String(AUTO_MONTHS.winter)]),
@@ -156,14 +215,14 @@ export default async function AutoPage({ params }: { params: Promise<{ id: strin
           href={`/auto/${car.id}/rechner/`}
           className="inline-flex min-h-12 items-center rounded-full bg-gold px-7 text-base font-semibold text-graphite hover:bg-gold-dim"
         >
-          {AUTO_PAGE.cta}
+          {fillCopy(AUTO_PAGE.cta, { car: name })}
         </Link>
         <p className="text-sm text-muted">{AUTO_PAGE.ctaHint}</p>
       </div>
 
       <p className="mt-10 text-sm text-muted">
         {fillCopy(AUTO_PAGE.listPrice, { price: formatDeUnit(car.listEur, "€") })}.{" "}
-        {fillCopy(COPY.carDataNote, { asOf: asOf ?? car.asOf })} {COPY.carDataReport}
+        {fillCopy(COPY.carDataNote, { asOf: isoToDe(asOf ?? car.asOf) })} {COPY.carDataReport}
       </p>
     </article>
   );

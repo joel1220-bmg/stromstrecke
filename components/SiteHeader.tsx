@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AUTO_PAGE } from "@/lib/copy";
 
 /**
  * Two rules, no shadow, no blur: the header should sit on the page the way a
@@ -16,6 +17,9 @@ export function SiteHeader() {
           Stromstrecke
         </Link>
         <nav aria-label="Hauptnavigation" className="flex gap-5 text-sm text-muted">
+          <Link href="/auto/" className="inline-flex min-h-11 items-center hover:text-accent">
+            {AUTO_PAGE.navAutos}
+          </Link>
           <Link href="/berater" className="inline-flex min-h-11 items-center hover:text-accent">
             Berater
           </Link>

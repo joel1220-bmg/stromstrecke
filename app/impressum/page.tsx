@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import { SEO_PAGE } from "@/lib/copy";
 import { readOperator } from "@/lib/operator";
 
 export const metadata: Metadata = {
   title: "Impressum · Stromstrecke",
+  description: SEO_PAGE.impressumDescription,
   alternates: { canonical: "/impressum" },
 };
 

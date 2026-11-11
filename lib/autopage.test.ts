@@ -55,3 +55,19 @@ describe("calculator pages", () => {
     }
   });
 });
+
+describe("search snippets", () => {
+  it("titles never exceed 60 signs with the suffix, descriptions stay under 160", async () => {
+    const { AUTO_PAGE, fillCopy } = await import("@/lib/copy");
+    const { withSuffix } = await import("@/lib/seo");
+    for (const car of getCars()) {
+      const name = `${car.brand} ${car.model}`;
+      for (const t of [AUTO_PAGE.metaTitle, AUTO_PAGE.calcMetaTitle]) {
+        const title = withSuffix(fillCopy(t, { car: name }));
+        if (title.endsWith("· Stromstrecke")) expect(title.length).toBeLessThanOrEqual(60);
+      }
+      const d = fillCopy(AUTO_PAGE.calcMetaDescription, { car: name });
+      expect(d.length).toBeLessThan(200);
+    }
+  });
+});
