@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import { SEO_PAGE } from "@/lib/copy";
 import { COPY } from "@/lib/copy";
 import { readOperator } from "@/lib/operator";
 
 export const metadata: Metadata = {
   title: "Datenschutz · Stromstrecke",
+  description: SEO_PAGE.datenschutzDescription,
   alternates: { canonical: "/datenschutz" },
 };
 

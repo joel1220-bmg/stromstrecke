@@ -457,12 +457,18 @@ export const MONTH_LABEL: Record<number, string> = {
  * shows, one car at a time. Placeholders in {braces} are filled by the page.
  */
 export const AUTO_PAGE = {
-  overviewTitle: "Alle Autos im Überblick",
+  overviewTitle: "E-Auto-Reichweite auf der Autobahn",
+  overviewMetaTitle: "E-Auto-Reichweite auf der Autobahn: {n} Modelle im Vergleich",
   overviewLead:
-    "Für jedes Auto im Katalog: wie weit es im Winter und im Sommer auf der Autobahn wirklich kommt, als Spanne, und was das für eine lange Fahrt bedeutet.",
-  metaTitle: "{car}: Reichweite im Winter auf der Autobahn",
+    "Wie weit kommt ein E-Auto auf der Autobahn wirklich? Für jedes Auto im Katalog steht hier die Spanne an einem milden Tag und im Winter bei 130 km/h. Der Prüfstandswert (WLTP) liegt fast immer darüber, im Winter bei hohem Tempo oft deutlich.",
+  overviewMetaDescription:
+    "Autobahn-Reichweite von {n} E-Autos als Spanne: bei 15 °C und 110 km/h und im Januar bei 130 km/h. Ehrlich gerechnet, nicht vom Prüfstand.",
+  overviewColMild: "{temp} (etwa {month}), {speed}",
+  overviewColWinter: "{month}, {speed}",
+  overviewCalc: "Rechner",
+  metaTitle: "{car}: Autobahn-Reichweite im Winter und Sommer",
   metaDescription:
-    "Wie weit kommt der {car} wirklich? Autobahn-Reichweite im Januar und Juli bei 110 und 130 km/h als Spanne, dazu Ladestopps auf {route}.",
+    "Wie weit kommt der {car} auf der Autobahn? Reichweite im Januar und Juli bei 110 und 130 km/h als Spanne, dazu Ladestopps auf {route}.",
   h1: "{car}: Wie weit kommen Sie wirklich?",
   lead:
     "Der Prüfstand nennt {wltp}. Auf der Autobahn hängt die Reichweite vor allem an Tempo und Jahreszeit: bei 130 km/h und im Winter bleibt deutlich weniger. Hier steht, womit Sie rechnen sollten.",
@@ -479,16 +485,32 @@ export const AUTO_PAGE = {
   tripTotal: "Fahrzeit mit Laden: {span}",
   assumptions:
     "Angenommen, nicht gemessen: deutsche Monatsmittel für die Temperatur (Januar {winterC}, Juli {summerC}), Schnelllader mit vorgewärmtem Akku. Im Berater können Sie jede Annahme ändern.",
-  cta: "Mit eigenen Angaben nachrechnen",
+  cta: "Reichweitenrechner {car}",
   ctaHint: "Monat, Tempo, Strecke und Ladestand selbst wählen.",
   unverified:
     "Für dieses Auto sind einzelne Herstellerangaben noch nicht abschließend geprüft. Die Spanne kann deshalb breiter sein als hier gezeigt.",
   listPrice: "Listenpreis ab etwa {price}",
   allCars: "Alle Autos im Überblick",
-  overviewNote: "{temp} Außentemperatur (etwa {month}), {speed}, voller Akku: Spanne der Autobahn-Reichweite.",
-  calcMetaTitle: "{car} Reichweitenrechner: Autobahn-Reichweite nach Jahreszeit",
+  navAutos: "Autos",
+  overviewNote: "Voller Akku am Start, {persons} Personen an Bord. Jede Zahl ist eine Spanne der Autobahn-Reichweite.",
+  calcMetaTitle: "{car} Reichweitenrechner",
   calcMetaDescription:
-    "Reichweitenrechner für den {car}: Monat, Tempo, Strecke und Ladestand wählen und sehen, wie weit er auf der Autobahn kommt, im Vergleich mit ähnlichen E-Autos.",
+    "Reichweitenrechner für den {car}: Monat, Tempo und Strecke wählen und die Autobahn-Reichweite mit ähnlichen E-Autos vergleichen.",
+  calcExplain:
+    "Angenommen, solange Sie nichts ändern: deutsche Monatsmittel für die Temperatur, Schnelllader mit vorgewärmtem Akku, 2 Personen, voller Akku am Start. Kursiv Gesetztes ist von uns angenommen.",
+  calcCompareHeading: "Die Autos daneben",
+  similarHeading: "Ähnliche Autos",
+  similarExplain: "Gleiche Form, ähnlicher Listenpreis. Spanne im {month} bei {speed}.",
+  factsHeading: "Das Auto in Zahlen, erklärt",
+  factBattery: "{kwh} nutzbarer Akku: der Teil der Batterie, mit dem Sie wirklich fahren.",
+  factCharge:
+    "Schnellladen bis {kw}: so viel nimmt er im besten Moment auf. Über einen ganzen Ladestopp gerechnet ist es deutlich weniger.",
+  factBody: "{body} mit {seats} Sitzen.",
+  factHeatPumpYes: "Mit Wärmepumpe: Heizen kostet im Winter weniger Reichweite.",
+  factHeatPumpNo: "Ohne Wärmepumpe laut Katalog: Heizen kostet im Winter spürbar Reichweite.",
+  factWltpShare: "Im {month} bei {speed} bleiben {span} des Prüfstandwerts.",
+  rankLine:
+    "Unter diesen {n} Autos kommt im {month} bei {speed} der {best} am weitesten, der {worst} am wenigsten weit (Mitte der Spanne).",
   calcH1: "Reichweitenrechner {car}",
   calcLead:
     "Wählen Sie Monat, Tempo und Strecke. Daneben stehen vergleichbare Autos, damit Sie die Spanne einordnen können.",
@@ -496,6 +518,19 @@ export const AUTO_PAGE = {
 } as const;
 
 /** Fill {placeholders} in an AUTO_PAGE string. Unknown keys stay visible. */
+/* Descriptions for pages that had only the landing text. Added 11.11.2026. */
+export const SEO_PAGE = {
+  homeTitle: "Stromstrecke · Ehrliche Autobahn-Reichweite für E-Autos",
+  beraterTitle: "E-Auto-Berater: passende Neuwagen mit ehrlicher Reichweite",
+  beraterDescription:
+    "Wenige Fragen zu Alltag, Laden und Platz, dann passende E-Autos mit Autobahn-Reichweite als Spanne. Kein Verkauf, keine Zusage.",
+  beraterIntro:
+    "Der Berater fragt nach Ihrem Alltag und zeigt dann passende Neuwagen mit ihrer Autobahn-Reichweite im gewählten Monat. „Weiß ich nicht“ ist immer erlaubt.",
+  impressumDescription: "Impressum von Stromstrecke.",
+  datenschutzDescription:
+    "Datenschutz bei Stromstrecke: Die Rechnung läuft in Ihrem Browser, kein Konto, kein Tracker.",
+} as const;
+
 export function fillCopy(template: string, values: Record<string, string>): string {
   return template.replace(/\{(\w+)\}/g, (m, k: string) => values[k] ?? m);
 }

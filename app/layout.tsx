@@ -3,8 +3,9 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { COPY } from "@/lib/copy";
 import "./globals.css";
+import { SEO_PAGE } from "@/lib/copy";
 
-const TITLE = "Stromstrecke · Neuwagen-Orientierung für E-Autos";
+const TITLE = SEO_PAGE.homeTitle;
 const URL_BASE = "https://stromstrecke.de";
 
 /*

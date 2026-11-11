@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ChargingScene } from "@/components/showroom/ChargingScene";
+import { JsonLd } from "@/components/JsonLd";
 import { AUTO_PAGE, COPY, LANDING_TILES } from "@/lib/copy";
+import { BASE_URL, SITE } from "@/lib/seo";
 
 /* Per page, never in the layout: a canonical set on the root element is
    inherited by every route, so /berater would name the home page as the
@@ -26,6 +28,16 @@ function CtaBlock({ className = "" }: { className?: string }) {
 export default function HomePage() {
   return (
     <div className="mx-auto max-w-6xl px-4 pb-24 pt-10 sm:px-6 sm:pt-14">
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: SITE,
+          url: `${BASE_URL}/`,
+          inLanguage: "de-DE",
+          description: COPY.landingLead,
+        }}
+      />
       <section className="grid items-center gap-10 lg:grid-cols-[1.05fr_1fr] lg:gap-14">
         <div className="max-w-xl">
           <p className="text-sm font-medium uppercase tracking-[0.16em] text-gold">
