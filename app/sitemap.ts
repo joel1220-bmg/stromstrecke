@@ -9,7 +9,7 @@ export const dynamic = "force-static";
 const BASE = "https://stromstrecke.de";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const carPages = getCars().map((car) => `/auto/${car.id}/`);
+  const carPages = getCars().flatMap((car) => [`/auto/${car.id}/`, `/auto/${car.id}/rechner/`]);
   return ["/", "/berater/", "/auto/", ...carPages, "/impressum/", "/datenschutz/"].map((path) => ({
     url: `${BASE}${path}`,
   }));

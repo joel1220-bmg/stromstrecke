@@ -153,7 +153,7 @@ export default async function AutoPage({ params }: { params: Promise<{ id: strin
 
       <div className="mt-10 flex flex-col items-start gap-3">
         <Link
-          href="/berater/"
+          href={`/auto/${car.id}/rechner/`}
           className="inline-flex min-h-12 items-center rounded-full bg-gold px-7 text-base font-semibold text-graphite hover:bg-gold-dim"
         >
           {AUTO_PAGE.cta}

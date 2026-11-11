@@ -110,3 +110,26 @@ export function carsByBrand(): { brand: string; cars: Car[] }[] {
       cars: [...cars].sort((a, b) => a.model.localeCompare(b.model, "de")),
     }));
 }
+
+/** Outdoor temperature for the overview list: a mild day, roughly May. */
+export const OVERVIEW_OUTDOOR_C = 15;
+export const OVERVIEW_SPEED: SpeedKph = 110;
+
+/** Range span for the overview list at 15 °C and 110 km/h. */
+export function overviewRange(car: Car): RangeSpan {
+  const { startSoc, persons } = DEFAULTS;
+  return computeRange(car, OVERVIEW_OUTDOOR_C, OVERVIEW_SPEED, startSoc, persons);
+}
+
+/**
+ * Up to `n` cars to stand beside `car` in its calculator: same body shape
+ * first, nearest list price; other shapes only if too few share it.
+ */
+export function comparableCars(car: Car, n = 3): Car[] {
+  const others = getCars().filter((c) => c.id !== car.id);
+  const byPrice = (a: Car, b: Car) =>
+    Math.abs(a.listEur - car.listEur) - Math.abs(b.listEur - car.listEur);
+  const same = others.filter((c) => c.body === car.body).sort(byPrice);
+  const rest = others.filter((c) => c.body !== car.body).sort(byPrice);
+  return [...same, ...rest].slice(0, n);
+}
