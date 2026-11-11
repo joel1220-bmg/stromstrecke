@@ -32,3 +32,26 @@ describe("car pages", () => {
     for (const car of getCars()) expect(car.id).toMatch(/^[a-z0-9-]+$/);
   });
 });
+
+describe("calculator pages", () => {
+  it("offers three other cars, never the car itself, same body first", async () => {
+    const { comparableCars } = await import("@/lib/autopage");
+    for (const car of getCars()) {
+      const cmp = comparableCars(car, 3);
+      expect(cmp).toHaveLength(3);
+      expect(cmp.map((c) => c.id)).not.toContain(car.id);
+      const sameCount = getCars().filter((c) => c.body === car.body && c.id !== car.id).length;
+      if (sameCount >= 3) expect(cmp.every((c) => c.body === car.body)).toBe(true);
+    }
+  });
+
+  it("overview range at 15 °C lies between the January and July spans", async () => {
+    const { overviewRange } = await import("@/lib/autopage");
+    for (const car of getCars()) {
+      const d = autoPageData(car);
+      const r = overviewRange(car);
+      expect(r.midKm).toBeGreaterThanOrEqual(d.cells[0].range.midKm);
+      expect(r.midKm).toBeLessThanOrEqual(d.cells[2].range.midKm + 1);
+    }
+  });
+});

@@ -485,7 +485,14 @@ export const AUTO_PAGE = {
     "Für dieses Auto sind einzelne Herstellerangaben noch nicht abschließend geprüft. Die Spanne kann deshalb breiter sein als hier gezeigt.",
   listPrice: "Listenpreis ab etwa {price}",
   allCars: "Alle Autos im Überblick",
-  overviewNote: "{month}, {speed}, voller Akku: Spanne der Autobahn-Reichweite.",
+  overviewNote: "{temp} Außentemperatur (etwa {month}), {speed}, voller Akku: Spanne der Autobahn-Reichweite.",
+  calcMetaTitle: "{car} Reichweitenrechner: Autobahn-Reichweite nach Jahreszeit",
+  calcMetaDescription:
+    "Reichweitenrechner für den {car}: Monat, Tempo, Strecke und Ladestand wählen und sehen, wie weit er auf der Autobahn kommt, im Vergleich mit ähnlichen E-Autos.",
+  calcH1: "Reichweitenrechner {car}",
+  calcLead:
+    "Wählen Sie Monat, Tempo und Strecke. Daneben stehen vergleichbare Autos, damit Sie die Spanne einordnen können.",
+  calcBack: "Zurück zur Übersicht für den {car}",
 } as const;
 
 /** Fill {placeholders} in an AUTO_PAGE string. Unknown keys stay visible. */
